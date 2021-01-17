@@ -1,0 +1,47 @@
+﻿@model ZimaHrm.Core.DataModel.HolidayModel
+
+@{
+    ViewData["Title"] = "Edit Holiday";
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Edit Holiday</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Add Holiday </li>
+        </ol>
+    </div>
+
+  
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form asp-controller="Admin" asp-action="EditHoliday" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Month" value="January" />
+                    <input type="hidden" asp-for="Day" value="Sunday" />
+
+                    <div class="form-group">
+                        <label asp-for="Date"></label>
+                        <input type="date" asp-for="Date" class="form-control" placeholder="Enter Date">
+                        <span asp-validation-for="Date" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Occesion"></label>
+                        <input type="text" asp-for="Occesion" class="form-control" placeholder="Enter Occasion">
+                        <span asp-validation-for="Occesion" class="text-danger" />
+                    </div>
+                    <button type="submit" id="btnSave" class="btn btn-sm btn-success waves-effect waves-light "><i class="fa fa-plus"></i> update</button>
+                    <a asp-action="DesignationList" id="btnCancel" class="btn btn-sm btn-danger waves-effect waves-light "><i class="fa fa-remove"></i> Cancel</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+

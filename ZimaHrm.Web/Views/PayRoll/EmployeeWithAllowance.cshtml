@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewData["Title"] = "Employee with Allowance/Deduction";
+}
+<style>
+    .allowanceList-show{
+        display:block;
+    }
+    .allowanceList-hide {
+        display: none;
+    }
+    .margin-10 {
+        margin-top: 6px;
+    }
+</style>
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Employee Allowance/Deduction </h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+            <li class="breadcrumb-item active">Employee Allowance</li>
+        </ol>
+    </div>
+
+    <div class="">
+        <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"><i class="ti-settings text-white"></i></button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label> Department </label>
+                            <select class="form-control" name="Departments" id="Departments" asp-items="@(ViewBag.Depertments)">
+                                <option>Select</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="AttendenceDate">Employee </label>
+                            <select class="form-control" name="EmployeeId" id="Employees"></select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <br />
+                        <input class="btn btn-primary margin-10" type="button" id="SeachAllowances" value="Search Allowance" />
+                    </div>
+                </div>
+                <br />
+                <div class="allowanceList">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <table id="AllowanceTable" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Allowance/Deduction</th>
+                                        <th>Value/ Percent</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4"></div>
+
+                    </div>
+                    <br />
+                    <button class="btn btn-primary" id="btnSave">Save Changes </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+    
+
+
+@section scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.allowanceList').addClass("allowanceList-hide");
+        //$('input').iCheck({
+        //    checkboxClass: 'icheckbox_minimal-grey'
+        //});
+        $('#btnSave').click(function () {
+            var empId = $('#Employees').val();
+            var ids = [];
+            var checkboxArray = document.getElementsByName('ids');
+
+            for (var i = 0; i < checkboxArray.length; i++) {
+                if (checkboxArray[i].checked)
+                    ids.push(checkboxArray[i].value);
+            }
+
+            if (ids.length > 0 && empId > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Payroll/SaveEmployeeAllowance",
+                    data: { empId: empId, ids: ids },
+                    datatype: "Json",
+                    success: function (data) {
+                        console.log("Success");
+                        location.reload();
+                    }
+                });
+            }
+            
+        });
+         $('#SeachAllowances').click(function () {
+             $("#AllowanceTable tbody").empty();
+             $('.allowanceList').removeClass("allowanceList-hide").addClass("allowanceList-show");
+                var allowanceList = [];
+                var deprtId = $('#Departments').val();
+                var empId = $('#Employees').val();
+                if (deprtId > 0 && empId > 0) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/Payroll/AllowanceListByEmployee",
+                        data: { deptId: deprtId, EmpId: empId },
+                        datatype: "Json",
+                        success: function (data) {
+                            $.each(data, function (index, value) {
+                                console.log(value);
+                                console.log(value.isValue);
+                                var is_value = (value.isValue) ? 'TK' : '%';
+                                var is_Check = (value.isCheck) ? true : false;
+                                var is_Allowance = (value.type == 'Allowance') ? 'label label-table label-success' : 'label label-table label-danger';
+                                allowanceList.push(`<tr>
+                                                        <td>
+                                                            <input type="checkbox"  id="${value.id}" name="ids" ${is_Check ? 'Checked': ''} value="${value.id }" />
+                                                           <span class="${is_Allowance}" title="${value.type}"> ${value.allowanceType}</span>   
+                                                        </td>
+                                                        <td>
+                                                              ${value.value}
+                                                              ${is_value}  </td>
+                                                    </tr>`);
+                            });
+                            $("#AllowanceTable tbody").append(allowanceList);
+                        }
+                    });
+                }
+            });
+         $('#Departments').change(function () {
+             $('#Employees').empty();
+             $('.allowanceList').addClass("allowanceList-hide");
+                if ($(this).val() > 0) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/Payroll/EmployeeByDeprt",
+                        data: { deptId: $(this).val() },
+                        datatype: "Json",
+                        success: function (data) {
+                            $.each(data, function (index, value) {
+                                $('#Employees').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        }
+                    });
+                }
+
+
+            });
+        });
+</script>
+}

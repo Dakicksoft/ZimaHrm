@@ -1,0 +1,59 @@
+﻿@model ZimaHrm.Core.DataModel.AwardModel
+
+@{
+    ViewData["Title"] = "Add Award";
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Award</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+            <li class="breadcrumb-item active">Award</li>
+        </ol>
+    </div>
+
+  
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form asp-controller="admin" asp-action="AddAward" method="post">
+                    <div class="form-group">
+                        <label asp-for="AwardTitle"></label>
+                        <input type="text" asp-for="AwardTitle" class="form-control" placeholder="Enter Award Title">
+                        <span asp-validation-for="AwardTitle" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmployeeId">Employee</label>
+                        <select asp-for="EmployeeId" class="form-control m-input" asp-items="@(ViewBag.Employees)">
+                            <option value="">Select Employee</option>
+                        </select>
+                        <span asp-validation-for="EmployeeId" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price"></label>
+                        <input type="text" asp-for="Price" class="form-control" placeholder="Enter Price">
+                        <span asp-validation-for="Price" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Gift"></label>
+                        <input type="text" asp-for="Gift" class="form-control" placeholder="Enter Gift">
+                        <span asp-validation-for="Gift" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Date"></label>
+                        <input type="date" asp-for="Date" class="form-control" placeholder="Enter Date">
+                        <span asp-validation-for="Date" class="text-danger" />
+                    </div>
+                    <button type="submit" id="btnSave" class="btn btn-sm btn-success waves-effect waves-light "><i class="fa fa-plus"></i> Add</button>
+                    <a asp-action="awardList" id="btnCancel" class="btn btn-sm btn-danger waves-effect waves-light "><i class="fa fa-remove"></i> Cancel</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

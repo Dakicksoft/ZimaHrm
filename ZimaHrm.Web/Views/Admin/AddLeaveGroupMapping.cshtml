@@ -1,0 +1,46 @@
+﻿@model ZimaHrm.Core.DataModel.LeaveEmployeeModel
+
+@{
+    ViewData["Title"] = "Leave Employee Mapping";
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Leave Employee Mapping</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+            <li class="breadcrumb-item active">Leave Employee mapping</li>
+        </ol>
+    </div>
+
+
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form asp-controller="admin" asp-action="AddLeaveGroupMapping" method="post">
+                    <div class="form-group">
+                        <label asp-for="LeaveGroupId"></label>
+                        <select asp-for="LeaveGroupId" class="form-control m-input" asp-items="@(ViewBag.LeaveGroups)">
+                            <option value="">Select Leave Group</option>
+                        </select>
+                        <span asp-validation-for="LeaveGroupId" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmployeeId">Employee</label>
+                        <select asp-for="EmployeeId" class="form-control m-input" asp-items="@(ViewBag.Employees)">
+                            <option value="">Select Employee</option>
+                        </select>
+                        <span asp-validation-for="EmployeeId" class="text-danger" />
+                    </div>
+                    <button type="submit" id="btnSave" class="btn btn-sm btn-success waves-effect waves-light "><i class="fa fa-plus"></i> Add</button>
+                    <a asp-action="awardList" id="btnCancel" class="btn btn-sm btn-danger waves-effect waves-light "><i class="fa fa-remove"></i> Cancel</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

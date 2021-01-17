@@ -1,0 +1,288 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Zima HRM - @DateTime.Now.Year</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+   
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Admin2/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Admin2/css/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+    <!-- This page CSS -->
+    <!-- chartist CSS -->
+    <link href="~/Admin2/css/morrisjs/morris.css" rel="stylesheet">
+    <!--c3 CSS -->
+    <link href="~/Admin2/css/c3-master/c3.min.css" rel="stylesheet">
+    <link href="~/Admin2/js/icheck/skins/all.css" rel="stylesheet" />
+    <link href="~/Admin2/js/icheck/skins/minimal/_all.css" rel="stylesheet" />
+    <!--Toaster Popup message CSS -->
+    <link href="~/Admin2/css/toast-master/css/jquery.toast.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/Admin2/css/style.css" rel="stylesheet">
+    <!-- Dashboard 1 Page CSS -->
+    <link href="~/Admin2/css/pages/dashboard1.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="~/Admin2/css/colors/default.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="fix-header fix-sidebar card-no-border">
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label"></p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="@Url.Action("Index")">
+                        <!-- Logo icon --><b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="~/Admin2/images/logo-icon.png" alt="homepage" class="dark-logo" />
+
+
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text --><span>
+                            <!-- dark Logo text -->
+                            <img src="~/Admin2/images/logo-text.png" alt="homepage" class="dark-logo" />
+
+
+                        </span>
+                    </a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto">
+                        <!-- This is  -->
+                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i class="sl-icon-menu"></i></a> </li>
+                        <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="sl-icon-menu"></i></a> </li>
+                        <!-- ============================================================== -->
+                        <!-- Search -->
+                        <!-- ============================================================== -->
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">
+
+
+                        <li class="nav-item dropdown u-pro">
+                            <a class="nav-link dropdown-toggle waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/images/zimahrm_logo.png" alt="user" class="" /> <span class="hidden-md-down">@User.Identity.Name &nbsp;<i class="fa fa-angle-down"></i></span> </a>
+                            <div class="dropdown-menu dropdown-menu-right flipInY">
+                                <ul class="dropdown-user">
+                                    @*
+                                        <li>
+                                            <div class="dw-user-box">
+                                                <div class="u-img"><img src="~/Admin2/images/users/1.jpg" alt="user"></div>
+                                                <div class="u-text">
+                                                    <h4>@User.Identity.Name</h4>
+                                                    <p class="text-muted">@User.Identity.Name</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li role="separator" class="divider"></li>*@
+                                    <li><a href="@Url.Action("ChangePassword")"><i class="ti-settings"></i> Account Setting</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="@Url.Action("Logout","home")"><i class="fa fa-power-off"></i> Logout</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <a href="~/Admin/index" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard</span></a>
+                            </li>
+                            <li>
+                                <a href="/common/DepartmentList" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-briefcase"></i><span class="hide-menu">Departments</span></a>
+                            </li>
+                            <li>
+                                <a href="/common/DesignationList" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Designations</span></a>
+                            </li>
+                            <li>
+                                <a href="/common/EmployeeList" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-group"></i><span class="hide-menu">Employees</span></a>
+                            </li>
+                            <li>
+                                <a href="/Admin/AwardList" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-trophy"></i><span class="hide-menu">Award List</span></a>
+                            </li>
+                            <li>
+                                <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="fa fa-money"></i><span class="hide-menu"> Pay Slip </span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="/payroll/AllowanceTypeList"> A/D Type</a></li>
+                                    <li><a href="/payroll/AllowanceList"> Allowance/Deduction </a></li>
+                                    <li><a href="/payroll/EmployeeWithAllowance"> Employee's A/D </a></li>
+                                    <li><a href="/payroll/CreatePaySlip"> Create PaySlip</a></li>
+                                    <li><a href="/payroll/PaySlipList"> PaySlip List </a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="fa fa-rocket"></i><span class="hide-menu"> Leave </span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="/Admin/LeaveTypeList"> Leave Type </a></li>
+                                    <li><a href="/Admin/LeaveApplicationList">Leave Application</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="fa fa-bar-chart"></i><span class="hide-menu">Attendence </span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="/Attendence/takeAttendence"> Take Attendence </a></li>
+                                    <li><a href="/attendence/index">Attendence Report</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="/Admin/holidays" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-paper-plane"></i><span class="hide-menu">Holidays</span></a>
+                            </li>
+                            <li>
+                                <a href="/Admin/NoticeList" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-bell"></i><span class="hide-menu">Notice List</span></a>
+                            </li>
+                            <li>
+                                <a href="/Company/index" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-cog"></i><span class="hide-menu">Company Setting</span></a>
+                            </li>
+                        }
+                        @if (User.IsInRole("User"))
+                        {
+                            <li>
+                                <a href="~/Employee/index" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard</span></a>
+                            </li>
+                            <li>
+                                <a href="/Employee/Profile" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-user"></i><span class="hide-menu">Profile</span></a>
+                            </li>
+                            <li>
+                                <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i class="fa fa-rocket"></i><span class="hide-menu"> Leave </span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="/Employee/LeaveApplication"> Leave </a></li>
+                                    <li><a href="/Employee/LeaveApplicationList">Leave Application</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="/Employee/AwardList" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-trophy"></i><span class="hide-menu">Award List</span></a>
+                            </li>
+                            <li>
+                                <a href="/Employee/PaySlipList" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-money"></i><span class="hide-menu">PaySlip List</span></a>
+                            </li>
+                            <li>
+                                <a href="/Employee/Attendence" class="waves-effect waves-dark" aria-expanded="false"><i class="fa fa-bar-chart"></i><span class="hide-menu">Attendence </span></a>
+                            </li>
+                        }
+
+
+
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+
+                @RenderBody()
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer"> © @DateTime.Now.Year Dakicksoft</footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+
+    <script src="~/Admin2/js/jquery/jquery.min.js"></script>
+    <script src="~/Admin2/css/morrisjs/morris.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <!-- Bootstrap popper Core JavaScript -->
+    <script src="~/Admin2/css/bootstrap/js/popper.min.js"></script>
+    <script src="~/Admin2/css/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="~/Admin2/js/ps/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="~/Admin2/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="~/Admin2/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="~/Admin2/js/custom.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <!--morris JavaScript -->
+    <script src="~/Admin2/js/raphael/raphael-min.js"></script>
+    <script src="~/Admin2/css/morrisjs/morris.min.js"></script>
+    <!--c3 JavaScript -->
+    <script src="~/Admin2/js/d3/d3.min.js"></script>
+    <script src="~/Admin2/css/c3-master/c3.min.js"></script>
+    <!-- Popup message jquery -->
+    <script src="~/Admin2/css/toast-master/js/jquery.toast.js"></script>
+    <!-- Chart JS -->
+    <script src="~/Admin2/js/dashboard1.js"></script>
+    <script src="~/Admin2/js/icheck/icheck.js"></script>
+    <!-- ============================================================== -->
+    <!-- Style switcher -->
+    <!-- ============================================================== -->
+    <script src="~/Admin2/styleswitcher/jQuery.style.switcher.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

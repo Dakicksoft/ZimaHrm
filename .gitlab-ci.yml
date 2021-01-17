@@ -1,0 +1,32 @@
+image: microsoft/dotnet:latest
+
+stages:
+    - build
+    - deploy
+
+
+
+before_script:
+   
+    - "dotnet restore"
+
+build:
+    stage: build
+    script:
+        - "dotnet build -c Release"
+        - "dotnet publish -o out -c Release"
+        - "cd out; zip -r ../out.zip *; cd .."
+    only:
+        - master
+    artifacts:
+        expire_in: 2 months
+        paths:
+            - out.zip
+
+deploy:
+    stage: deploy
+    script:
+        - cd out; unzip *.zip; cd -
+    only:
+        - master
+    when: on_success

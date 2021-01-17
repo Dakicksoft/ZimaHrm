@@ -1,0 +1,89 @@
+﻿@model ZimaHrm.Core.DataModel.CompanyModel
+@{
+    ViewData["Title"] = "Company Settings";
+}
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="basic-elements">
+                            <form  method="post" enctype="multipart/form-data">
+                                <input type="hidden" asp-for="Id" />
+                                <div class="row">
+                                    <div class="col-lg-8">
+
+                                        <div class="form-group">
+                                            <div class="col-md-5 col-md-offset-2">
+                                                <img src="@Model.Logo" alt="img" id="UploadFile" class="img-thumbnail" style="height: 150px; width:150px;"/> <br />
+                                                <input type="file" name="logoPostedFileBase" accept="image/x-png, image/gif, image/jpeg" id="FileUpload" onchange="PreviewImage()" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label asp-for="CompanyName"></label>
+                                            <input type="text" asp-for="CompanyName" class="form-control" placeholder="eg Dakicksoft">
+                                            <span asp-validation-for="CompanyName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label asp-for="Currency"></label>
+                                            <input type="text" asp-for="Currency" class="form-control" placeholder="eg $">
+                                            <span asp-validation-for="Currency" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Email"></label>
+                                            <input asp-for="Email" class="form-control" type="email" placeholder="Enter Email">
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Phone"></label>
+                                            <input asp-for="Phone" class="form-control" type="text" placeholder="Enter phone">
+                                            <span asp-validation-for="Phone" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Web"></label>
+                                            <input asp-for="Web" class="form-control" type="tel" placeholder="Enter Web">
+                                            <span asp-validation-for="Web" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Address"></label>
+                                            <textarea class="form-control" asp-for="Address" rows="6" placeholder="Enter address"></textarea>
+                                            <span asp-validation-for="Address" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-success"> Save Changes </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End PAge Content -->
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+        });
+
+        function PreviewImage() {
+            var oFReader = new FileReader();
+            oFReader.readAsDataURL(document.getElementById("FileUpload").files[0]);
+
+            oFReader.onload = function (oFREvent) {
+                document.getElementById("UploadFile").src = oFREvent.target.result;
+            };
+        };
+    </script>
+}

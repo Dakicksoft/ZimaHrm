@@ -1,0 +1,268 @@
+﻿@model ZimaHrm.Core.DataModel.EmployeeModel
+
+@{
+    ViewData["Title"] = "Add Employee";
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Employee</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+            <li class="breadcrumb-item active">Employee</li>
+        </ol>
+    </div>
+
+    <div class="">
+        <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"><i class="ti-settings text-white"></i></button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" asp-controller="common" asp-action="AddEmployee">
+                    <div class="form-body">
+                        <h3 class="card-title">Person Info</h3>
+                        <hr>
+
+
+                        <div class="row p-t-20">
+                            <div class="col-md-5">
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-5 col-md-offset-2">
+                                    <img src="@Model.ImagePath" alt="img" id="UploadFile" class="img-thumbnail" style="width:200px;" /> <br />
+                                    <input type="file" name="logoPostedFileBase" accept="image/x-png, image/gif, image/jpeg" id="FileUpload" onchange="PreviewImage()" />
+                                </div>
+                            </div>
+
+                            <br /><br />
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="Name"></label>
+                                    <input type="text" id="firstName" class="form-control" asp-for="Name" placeholder="Enter Name">
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="Email"></label>
+                                    <input type="text" id="firstName" class="form-control" asp-for="Email" placeholder="Enter Email">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="Mobile"></label>
+                                    <input type="text" id="firstName" class="form-control" asp-for="Mobile" placeholder="Enter Mobile ">
+                                    <span asp-validation-for="Mobile" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group has-success">
+                                    <label class="control-label" asp-for="Gender"></label>
+                                    <select class="form-control " asp-for="Gender">
+                                        <option>Select</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                    <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="DateOfBirth"></label>
+                                    <input type="date" asp-for="DateOfBirth" class="form-control" placeholder="dd/mm/yyyy">
+                                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="PresentAddress"></label>
+                                    <textarea type="text" asp-for="PresentAddress" class="form-control" placeholder="Enter Present Address"></textarea>
+                                    <span asp-validation-for="PresentAddress" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <span><input type="checkbox" /> Same As Present Address </span>
+                                        <label class="control-label float-lg-right" asp-for="PermanentAddress"></label>
+                                        <textarea type="text" asp-for="PermanentAddress" class="form-control" placeholder="Enter Present Address"></textarea>
+                                        <span asp-validation-for="PermanentAddress" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+
+                        <h3 class="box-title m-t-40">Company Info</h3>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4 ">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="JoiningDate"></label>
+                                    <input type="date" asp-for="JoiningDate" class="form-control" placeholder="Enter Joining Date"></input>
+                                    <span asp-validation-for="JoiningDate" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 ">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="DepertmentId"></label>
+                                    <select class="form-control" id="department" asp-for="DepertmentId" asp-items="@(ViewBag.Department)" required>
+                                        <option value="">Select Department</option>
+                                    </select>
+                                    <span asp-validation-for="DepertmentId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 ">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="DegisnationId"></label>
+                                    <select asp-for="DegisnationId" id="designation" class="form-control" asp-items="@(ViewBag.Designation)" required>
+                                        <option value="">Select Degisnation</option>
+                                    </select>
+                                    <span asp-validation-for="DegisnationId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 ">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="BasicSalary"></label>
+                                    <input type="text" asp-for="BasicSalary" class="form-control" placeholder="Enter Basic Salary"></input>
+                                    <span asp-validation-for="BasicSalary" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 ">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="ResignDate"></label>
+                                    <input type="date" asp-for="ResignDate" class="form-control" />
+                                    <span asp-validation-for="ResignDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 ">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CV">Browse the CV</label>
+                                    <div class="controls">
+                                        <input type="file" name="file" asp-for="CV" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="NationalId">Browse the NID</label>
+                                    <div class="controls">
+                                        <input type="file" name="file" asp-for="NationalId" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Other">Browse Other documentation</label>
+                                    <div class="controls">
+                                        <input type="file" name="file" asp-for="Other" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--/row-->
+                        <h3 class="box-title m-t-40">Bank Info</h3>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6 ">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="AccountName"></label>
+                                    <input type="text" asp-for="AccountName" class="form-control" placeholder="Enter Accunt Name"></input>
+                                    <span asp-validation-for="AccountName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="AccountNumber"></label>
+                                    <input type="text" asp-for="AccountNumber" class="form-control" placeholder="Enter Account Number"></input>
+                                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 ">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="SWIFTCode"></label>
+                                    <input type="text" asp-for="SWIFTCode" class="form-control" placeholder="Enter SWIFTCode"></input>
+                                    <span asp-validation-for="SWIFTCode" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 ">
+                                <div class="form-group">
+                                    <label class="control-label" asp-for="Branch"></label>
+                                    <input type="text" asp-for="Branch" class="form-control" placeholder="Enter Branch Name"></input>
+                                    <span asp-validation-for="Branch" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
+                        <button type="button" class="btn btn-inverse">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+        });
+
+         $("#department").change(function () {
+                $('#designation').empty();
+
+                $.getJSON('/Common/DesignationByDepartment', { departmentId: $('#department').val() }, function (data) {
+                    $.each(data, function () {
+                        console.log(data);
+                        $('#designation').append('<option value=' +
+                          this.id + '>' + this.name+ '</option>');
+                    });
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $('#designation').empty();
+                });
+
+            });
+
+        function PreviewImage() {
+            var oFReader = new FileReader();
+            oFReader.readAsDataURL(document.getElementById("FileUpload").files[0]);
+
+            oFReader.onload = function (oFREvent) {
+                document.getElementById("UploadFile").src = oFREvent.target.result;
+            };
+        };
+    </script>
+}

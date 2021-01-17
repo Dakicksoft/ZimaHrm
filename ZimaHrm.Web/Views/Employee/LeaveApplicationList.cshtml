@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ZimaHrm.Core.DataModel.LeaveApplicationModel>
+@{
+    ViewData["Title"] = "Leave Application List";
+}
+
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Leave Application List</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Leave Application List </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                @*<h4 class="card-title">Bordered Table</h4>
+                    <h6 class="card-subtitle">Add<code>.table-bordered</code>for borders on all sides of the table and cells.</h6>*@
+                <div class="">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Reason</th>
+                                <th>Leave Type </th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>1</td>
+                                    <td>@item.Reason</td>
+                                    <td>@item.LeaveType.LeaveTypeName </td>
+                                    <td>@item.LeaveDate.ToShortDateString()</td>
+                                    <td>
+                                        @if (item.Status == "Pending")
+                                        {<span class="label label-warning"> pending </span>}
+                                        @if (item.Status == "Approve")
+                                        {<span class="label label-success"> Approved </span>}
+                                        @if (item.Status == "Reject")
+                                        {<span class="label label-danger"> Rejected </span>}
+                                    </td>
+                                    <td>
+                                        @if (item.Status == "Pending" || item.Status == "Reject")
+                                        {
+
+                                            <a data-toggle="tooltip" asp-controller="employee" asp-action="EditLeaveApplication" asp-route-id="@item.Id" data-original-title="Edit" class="btnEdit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                            <a data-toggle="tooltip" asp-controller="employee" asp-action="DeleteLeaveApplication" asp-route-id="@item.Id" data-original-title="Delete" onclick="return confirm('are you sure want to delete?')"> <i class="fa fa-close text-danger"></i> </a>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+    <script type="text/javascript">
+
+    </script>
+}

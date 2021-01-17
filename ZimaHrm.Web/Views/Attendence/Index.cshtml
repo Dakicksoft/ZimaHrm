@@ -1,0 +1,157 @@
+﻿@model ZimaHrm.Core.ViewModel.AttendenceReportViewModel
+
+@{
+    ViewData["Title"] = "Take Attendence";
+
+}
+
+<style>
+    .margin-10 {
+        margin-top: 6px;
+    }
+
+    .vertical-text {
+        writing-mode: vertical-rl;
+    }
+
+    #customers {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+        }
+
+        #customers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #customers tr:hover {
+            background-color: #ddd;
+        }
+
+        #customers td {
+            font-size: 13px;
+        }
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+</style>
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Attendence Report </h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+            <li class="breadcrumb-item active">Attendence Report</li>
+        </ol>
+    </div>
+
+    <div class="">
+        <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"><i class="ti-settings text-white"></i></button>
+    </div>
+</div>
+<form method="post" asp-action="index" asp-controller="Attendence">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="DepartmentId"></label>
+                                <select class="form-control" asp-for="DepartmentId">
+                                    <option value="0">All Employee</option>
+                                </select>
+                                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Month"></label>
+                                @Html.DropDownListFor(x => x.Month, new List<SelectListItem>
+                                {
+                                    new SelectListItem() {Text = "January", Value="1"},
+                                    new SelectListItem() {Text = "February", Value="2"},
+                                    new SelectListItem() {Text = "March", Value="3"},
+                                    new SelectListItem() {Text = "April", Value="4"},
+                                    new SelectListItem() {Text = "May", Value="5"},
+                                    new SelectListItem() {Text = "June", Value="6"},
+                                    new SelectListItem() {Text = "July", Value="7"},
+                                    new SelectListItem() {Text = "August", Value="8"},
+                                    new SelectListItem() {Text = "September", Value="9"},
+                                    new SelectListItem() {Text = "October ", Value="10"},
+                                    new SelectListItem() {Text = "November", Value="11"},
+                                    new SelectListItem() {Text = "December", Value="12"},
+                                }, "Select Month", new { @class = "form-control" })
+                                <span asp-validation-for="Month" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <br />
+                            <input class="btn btn-primary margin-10" type="submit" value="Search Employee" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-12">
+        @if (Model != null)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <table id="customers">
+                        <thead>
+                            <tr>
+                                <td>Employee</td>
+
+                                @foreach (var item in Model.AllCurrentMonthDate)
+                                {
+                                    <td>
+                                        <span class="vertical-text">@item </span>
+                                    </td>
+                                }
+                            </tr>
+                        </thead>
+                        @foreach (var emp in Model.StatusViewModel)
+                        {
+
+                            <tr>
+                                <td> @emp.EmployeeName </td>
+                                @foreach (var status in emp.statustViewModel)
+                                {
+                                    <td>
+                                        @if (status.Status == "Present")
+                                        {
+                                            <span  class="fa  fa-check"> </span>
+
+                                        }
+                                        @if (status.Status == "Absense")
+                                        {
+
+                                            <span class="fa fa-times"></span>
+                                        }
+                                    </td>
+
+                                }
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

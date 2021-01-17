@@ -1,0 +1,78 @@
+﻿@model IEnumerable<ZimaHrm.Core.DataModel.LeaveApplicationModel>
+@{
+    ViewData["Title"] = "Leave Application List";
+    int i = 1;
+}
+
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Leave Application List</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Leave Application List </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                @*<h4 class="card-title">Bordered Table</h4>
+                    <h6 class="card-subtitle">Add<code>.table-bordered</code>for borders on all sides of the table and cells.</h6>*@
+                <div class="">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Employee</th>
+                                <th>Reason</th>
+                                <th>Leave Type </th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th class="text-nowrap">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@item.EmployeeModel.Name</td>
+                                    <td>@item.Reason</td>
+                                    <td>@item.LeaveType.LeaveTypeName </td>
+                                    <td>@item.LeaveDate.ToShortDateString()</td>
+                                    <td>
+                                        @if (item.Status == "Pending")
+                                        {<span class="label label-warning"> pending </span>}
+                                        @if (item.Status == "Approve")
+                                        {<span class="label label-success"> Approved </span>}
+                                        @if (item.Status == "Reject")
+                                        {<span class="label label-danger"> Rejected </span>}
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <a data-toggle="tooltip" data-original-title="Approve" asp-controller="admin" asp-action="ChangeLeaveStatus" asp-route-id="@item.Id" asp-route-status="Approve" onclick="return confirm('are you sure want to Approve?')" class="btnEdit"> <i style="color:forestgreen;" class="fa fa-check m-r-10"></i> </a>
+                                        <a data-toggle="tooltip" data-original-title="Reject" asp-controller="admin" asp-action="ChangeLeaveStatus" asp-route-id="@item.Id" asp-route-status="Reject" onclick="return confirm('are you sure want to Reject?')"> <i class="fa fa-close text-danger"></i> </a>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+    <script type="text/javascript">
+
+    </script>
+}

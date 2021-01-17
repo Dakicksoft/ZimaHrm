@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZimaHrm.Core", "ZimaHrm.Core\ZimaHrm.Core.csproj", "{64C8EF5F-142E-410D-967F-E3E139D30FB7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZimaHrm.Data", "ZimaHrm.Data\ZimaHrm.Data.csproj", "{44F5BA68-B957-4676-8FDE-F154FED5BFFF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZimaHrm.Web", "ZimaHrm.Web\ZimaHrm.Web.csproj", "{AB86F90F-554A-4465-8A10-BDB9C207960F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B6758A6D-D4E8-45EC-B1C0-9940598B466A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F59B60C5-C087-4B2E-BD28-D41109F9CD73}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZimaHrm.Infrastructure", "ZimaHrm.Infrastructure\ZimaHrm.Infrastructure.csproj", "{FBB83EC0-2ECB-479B-9A56-95427AAB16E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64C8EF5F-142E-410D-967F-E3E139D30FB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C8EF5F-142E-410D-967F-E3E139D30FB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64C8EF5F-142E-410D-967F-E3E139D30FB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64C8EF5F-142E-410D-967F-E3E139D30FB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44F5BA68-B957-4676-8FDE-F154FED5BFFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44F5BA68-B957-4676-8FDE-F154FED5BFFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44F5BA68-B957-4676-8FDE-F154FED5BFFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44F5BA68-B957-4676-8FDE-F154FED5BFFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB86F90F-554A-4465-8A10-BDB9C207960F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB86F90F-554A-4465-8A10-BDB9C207960F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB86F90F-554A-4465-8A10-BDB9C207960F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB86F90F-554A-4465-8A10-BDB9C207960F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBB83EC0-2ECB-479B-9A56-95427AAB16E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBB83EC0-2ECB-479B-9A56-95427AAB16E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBB83EC0-2ECB-479B-9A56-95427AAB16E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBB83EC0-2ECB-479B-9A56-95427AAB16E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3E1215A7-06CA-48A7-96CA-F0DE6DBF188D}
+	EndGlobalSection
+EndGlobal

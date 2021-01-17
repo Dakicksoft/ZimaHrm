@@ -1,0 +1,142 @@
+﻿@model ZimaHrm.Core.ViewModel.LoginViewModel
+
+@{
+    Layout = null;
+}
+<link href="~/Admin2/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+<link href="~/Admin2/css/pages/login-register-lock.css" rel="stylesheet" />
+<link href="~/Admin2/css/style.css" rel="stylesheet" />
+@*<h1>Login</h1>
+    <form asp-controller="Home" asp-action="Login"
+          method="post">
+        <table>
+            <tr>
+                <td><label asp-for="Email"></label></td>
+                <td><input asp-for="Email" /></td>
+            </tr>
+            <tr>
+                <td><label asp-for="Password"></label></td>
+                <td><input asp-for="Password" type="password" /></td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <input type="submit"
+                           value="Login" />
+                </td>
+            </tr>
+        </table>
+        <div asp-validation-summary="All"></div>
+
+        <br />
+        <div>@ViewData["message"]</div>
+
+        <h3>
+            <a asp-controller="Account" asp-action="Register">
+                Create a user
+            </a>
+        </h3>
+
+    </form>*@
+
+
+<body class="card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Easy HRM</p>
+        </div>
+    </div>
+   
+    <section id="wrapper">
+        <div class="login-register" style="background-image: url(../../Admin2/images/background/login-register.jpg);">
+            <div class="login-box card">
+                <div class="card-body">
+                    <form class="form-horizontal form-material" asp-controller="Home" asp-action="Login">
+                        <h3 class="box-title m-b-20">Sign In</h3>
+                        <div class="form-group ">
+                            <div class="col-xs-12">
+                                <input class="form-control" asp-for="Email" type="text" placeholder="Enter Email ">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <input class="form-control" asp-for="Password" type="password" placeholder="Password">
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <div class="col-xs-12 p-b-20">
+                                <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Log In</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-b-0">
+                            <div class="col-sm-12 text-center">
+                                @if (TempData["FFMsg"] != null)
+                                {
+                                <div class="alert alert-danger alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                        ×
+                                    </button>
+                                    @TempData["FFMsg"].ToString()
+                                </div>
+                                <br />
+                                }
+                                <br />
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal" id="recoverform" action="index.html">
+                        <div class="form-group ">
+                            <div class="col-xs-12">
+                                <h3>Recover Password</h3>
+                                <p class="text-muted">Enter your Email and instructions will be sent to you! </p>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="col-xs-12">
+                                <input class="form-control" type="text" required="" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-group text-center m-t-20">
+                            <div class="col-xs-12">
+                                <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="~/Admin2/js/jquery/jquery.min.js"></script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Admin2/css/bootstrap/js/popper.min.js"></script>
+    <script src="~/Admin2/css/bootstrap/js/bootstrap.min.js"></script>
+    <!--Custom JavaScript -->
+    <script type="text/javascript">
+        $(function () {
+            $(".preloader").fadeOut();
+        });
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+        // ==============================================================
+        // Login and Recover Password
+        // ==============================================================
+        $('#to-recover').on("click", function () {
+            $("#loginform").slideUp();
+            $("#recoverform").fadeIn();
+        });
+    </script>
+
+</body>

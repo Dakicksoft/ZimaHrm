@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ZimaHrm.Core.DataModel.EmployeePaySlipModel>
+@{
+    ViewData["Title"] = "Employee PaySlip List";
+    int i = 1;
+}
+
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Employee PaySlip List</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Employee PaySlip List </li>
+        </ol>
+    </div>
+    <div class="col-md-7 align-self-center text-right d-none d-md-block">
+        <a asp-action="CreatePaySlip" class="btn btn-info"><i class="fa fa-plus-circle"></i>New PaySlip</a>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                @*<h4 class="card-title">Bordered Table</h4>
+                    <h6 class="card-subtitle">Add<code>.table-bordered</code>for borders on all sides of the table and cells.</h6>*@
+                <div class="">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Employee </th>
+                                <th>Basic Salary </th>
+                                <th>Total Allowance</th>
+                                <th>Total Deduction</th>
+                                <th>Net Salary</th>
+
+                                <th class="text-nowrap">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Employee.Name</td>
+                                <td>@item.BasicSalary</td>
+                                <td>@item.AllowanceTotal</td>
+                                <td>@item.DeductionTotal</td>
+                                <td>@item.NetSalary</td>
+                               
+                                <td class="text-nowrap">
+                                    <a data-toggle="tooltip" asp-controller="PayRoll" asp-action="EmpPaySlipDetails" asp-route-id="@item.Id" data-original-title="details" class="btnEdit"> <i class="fa fa-eye text-inverse m-r-10"></i> </a>
+                                    <a data-toggle="tooltip" asp-controller="PayRoll" asp-action="DeleteDesignation" asp-route-id="@item.Id" data-original-title="Delete" onclick="return confirm('are you sure want to delete?')"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+                            </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+    <script type="text/javascript">
+
+    </script>
+}

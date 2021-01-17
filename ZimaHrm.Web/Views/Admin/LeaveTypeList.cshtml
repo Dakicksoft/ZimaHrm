@@ -1,0 +1,97 @@
+﻿@model IEnumerable<ZimaHrm.Core.DataModel.LeaveTypeModel>
+@{
+    ViewData["Title"] = "Leave Type List";
+    int i = 1;
+}
+
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Leave Type List</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Leave Type List </li>
+        </ol>
+    </div>>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                @*<h4 class="card-title">Bordered Table</h4>
+                    <h6 class="card-subtitle">Add<code>.table-bordered</code>for borders on all sides of the table and cells.</h6>*@
+                <div class="">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th class="text-nowrap">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td>
+                                        <p>@item.LeaveTypeName</p>
+                                    </td>
+
+                                    <td class="text-nowrap">
+                                        <a data-toggle="tooltip" data-val-id="@item.Id" data-original-title="Edit" class="btnEdit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                        <a data-toggle="tooltip" data-original-title="Delete" asp-controller="admin" asp-action="DeleteLeaveType" asp-route-id="@item.Id" onclick="return confirm('are you sure want to delete?')"> <i class="fa fa-close text-danger"></i> </a>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <form asp-controller="admin" asp-action="LeaveTypeList" method="post">
+                    <div class="form-group">
+                        <label for="Name">Leave Type Name</label>
+                        <input type="hidden" name="Id" value="0" id="inputId" />
+                        <input type="text" name="LeaveTypeName" class="form-control" id="Name" placeholder="Enter Leave Type Name">
+                        @Html.ValidationMessage("LeaveTypeName", "", new { @class = "text-danger" })
+                    </div>
+                    <button type="submit" id="btnSave" class="btn btn-sm btn-success waves-effect waves-light "><i class="fa fa-plus"></i> Add</button>
+                    <button type="button" id="btnCancel" class="btn btn-sm btn-danger waves-effect waves-light "><i class="fa fa-remove"></i> Cancel</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".btnEdit").click(function () {
+                var id = parseInt($(this).attr("data-val-id"));
+                var name = $.trim($(this).closest('tr').children('td:eq(1)').text());
+                if (name !== "" && id !== null) {
+                    $("#Name").val(name);
+                    $("#inputId").val(id);
+                    $("#btnSave").html('<i class="fa fa-plus"></i> Update');
+                }
+
+            });
+
+            $("#btnCancel").click(function () {
+                $("#btnSave").html('<i class="fa fa-plus"></i> Add');
+                $("#inputId").val('0');
+                $("#Name").val("");
+            });
+        });
+    </script>
+}

@@ -1,0 +1,67 @@
+﻿@model ZimaHrm.Core.DataModel.LeaveGroupModel
+
+@{
+    ViewData["Title"] = "Edit Leave Group";
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Edit Leave Group</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Leave Group </li>
+        </ol>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form asp-controller="Admin" asp-action="EditLeaveGroup" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="LeaveGroupName"></label>
+                        <input type="text" asp-for="LeaveGroupName" class="form-control" placeholder="Enter Leave Group name">
+                        <span asp-validation-for="LeaveGroupName" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SickLeave"></label>
+                        <input type="text" asp-for="SickLeave" class="form-control" placeholder="Sick Leave" />
+                        <span asp-validation-for="SickLeave" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CasualLeave"></label>
+                        <input type="text" asp-for="CasualLeave" class="form-control" placeholder="Casual Leave" />
+                        <span asp-validation-for="CasualLeave" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Maternity"></label>
+                        <input type="text" asp-for="Maternity" class="form-control" placeholder="Maternity Leave" />
+                        <span asp-validation-for="Maternity" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HalfDay"></label>
+                        <input type="text" asp-for="HalfDay" class="form-control" placeholder="HalfDay Leave" />
+                        <span asp-validation-for="HalfDay" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UnPaid"></label>
+                        <input type="text" asp-for="UnPaid" class="form-control" placeholder="Unpaid Leave" />
+                        <span asp-validation-for="UnPaid" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Others"></label>
+                        <input type="text" asp-for="Others" class="form-control" placeholder="Others Leave" />
+                        <span asp-validation-for="Others" class="text-danger" />
+                    </div>
+                    <button type="submit" id="btnSave" class="btn btn-sm btn-success waves-effect waves-light "><i class="fa fa-plus"></i> Add</button>
+                    <a asp-action="LeaveGroupList" id="btnCancel" class="btn btn-sm btn-danger waves-effect waves-light "><i class="fa fa-remove"></i> Cancel</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

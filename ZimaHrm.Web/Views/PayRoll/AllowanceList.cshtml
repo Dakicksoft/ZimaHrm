@@ -1,0 +1,131 @@
+﻿@model ZimaHrm.Core.DataModel.AllowanceModel
+@{
+    ViewData["Title"] = "Allowance/Deduction List";
+    int i = 1;
+}
+
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Allowance List</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="AllowanceList" asp-controller="PayRoll">Home</a></li>
+            <li class="breadcrumb-item active">Allowance/Deduction List </li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="row">
+    @if (ViewBag.AllowanceList != null)
+    {
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    @*<h4 class="card-title">Bordered Table</h4>
+                        <h6 class="card-subtitle">Add<code>.table-bordered</code>for borders on all sides of the table and cells.</h6>*@
+                    <div class="">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>A/D type</th>
+                                    <th>Value</th>
+                                    <th class="text-nowrap">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in ViewBag.AllowanceList)
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>
+                                            @if (item.Type == "Allowance")
+                                            {
+                                                <span class="label label-table label-success" title="@item.Type">@item.AllowanceType</span>
+
+                                            }
+                                            @if (item.Type == "Deduction")
+                                            {
+                                                <span class="label label-table label-danger" title="@item.Type">@item.AllowanceType</span>
+
+                                            }
+
+                                        </td>
+                                        <td>
+                                            <span>
+                                                @if (item.IsValue)
+                                                {
+                                                    <span> @item.Value TK</span>
+                                                }
+                                            </span>
+                                            <span>
+                                                @if (!item.IsValue)
+                                                {
+                                                    <span> @item.Value %</span>
+                                                }
+                                            </span>
+                                        </td>
+
+                                        <td class="text-nowrap">
+                                            <a data-toggle="tooltip" asp-action="AllowanceList" asp-route-id="@item.Id" data-val-id="@item.Id" data-original-title="Edit" class="btnEdit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                            <a data-toggle="tooltip" data-original-title="Delete" asp-controller="PayRoll" asp-action="DeleteAllowance" asp-route-id="@item.Id" onclick="return confirm('are you sure want to delete?')"> <i class="fa fa-close text-danger"></i> </a>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <form asp-controller="PayRoll" asp-action="AllowanceList" method="post">
+                    <input type="hidden" value="@Model.Id" />
+
+                    <div class="form-group">
+                        <label> Type </label>
+                        <select asp-for="Type" class="form-control">
+                            <option value="">Select Type</option>
+                            <option value="Allowance">Allowance</option>
+                            <option value="Deduction">Deduction</option>
+                        </select>
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AllowanceType"></label>
+                        <select asp-for="AllowanceType" class="form-control" asp-items="@(ViewBag.Depertments)">
+                            <option value="">Select</option>
+                        </select>
+                        <span asp-validation-for="AllowanceType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label> Value/Percent </label>
+                        <select asp-for="IsValue" class="form-control">
+                            <option value="true">Value</option>
+                            <option value="false">Percent</option>
+                        </select>
+                        <span asp-validation-for="IsValue" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Value"></label>
+                        <input type="text" asp-for="Value" class="form-control" id="Value" placeholder="Enter Value">
+                        <span asp-validation-for="Value" class="text-danger"></span>
+                    </div>
+
+
+                    <button type="submit" id="btnSave" class="btn btn-sm btn-success waves-effect waves-light "><i class="fa fa-plus"></i> Add</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

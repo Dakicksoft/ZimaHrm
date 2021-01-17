@@ -1,0 +1,159 @@
+﻿@model IEnumerable<ZimaHrm.Core.DataModel.HolidayModel>
+@{
+    ViewData["Title"] = "Holiday List";
+    string month = DateTime.Now.ToString("MMMM");
+    int i = 1;
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Holiday List</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Holiday List </li>
+        </ol>
+    </div>
+    <div class="col-md-7 align-self-center text-right d-none d-md-block">
+        <a asp-action="AddHoliday" class="btn btn-info"><i class="fa fa-plus-circle"></i> Add New</a>
+    </div>
+    
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div id="MonthList">
+            <ul class="list-group list-group-full">
+                <li class="list-group-item month @(month == "January" ? "active" : "")">
+                    <a> <i class="mdi mdi-calendar"></i> January </a>
+                </li>
+                <li class="list-group-item month">
+                    <a> <i class="mdi mdi-calendar @(month == "February" ? "active" : "")"></i> February </a>
+                </li>
+                <li class="list-group-item month @(month == "March" ? "active" : "")">
+                    <a> <i class="mdi mdi-calendar"></i> March </a>
+                </li>
+                <li class="list-group-item month @(month == "April" ? "active" : "")">
+                    <a> <i class="mdi mdi-calendar"></i> April </a>
+                </li>
+                <li class="list-group-item month @(month == "May" ? "active" : "")">
+                    <a> <i class="mdi mdi-calendar"></i> May </a>
+                </li>
+                <li class="list-group-item month @(month == "June" ? "active" : "")">
+                    <a> <i class="mdi mdi-calendar"></i> June </a>
+                </li>
+                <li class="list-group-item month @(month == "July" ? "active" : "")">
+                    <a> <i class="mdi mdi-calendar"></i> July </a>
+                </li>
+                <li class="list-group-item month @(month == "August" ? "active" : "")">
+                    <a> <i class="mdi mdi-calendar"></i> August </a>
+                </li>
+                <li class="list-group-item month @(month == "September" ? "active" : "")">
+                    <a> <i class="mdi mdi-calendar"></i> September </a>
+                </li>
+                <li class="list-group-item month @(month == "October" ? "active" : "")">
+                    <a> <i class="mdi mdi-calendar"></i> October </a>
+                </li>
+                <li class="list-group-item month @(month == "November" ? "active" : "")">
+                    <a> <i class="mdi mdi-calendar"></i> November </a>
+                </li>
+                <li class="list-group-item month @(month == "December" ? "active" : "")">
+                    <a> <i class="mdi mdi-calendar"></i> December </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div ifass="card-body">
+                @*<h4 class="card-title">Bordered Table</h4>
+                    <h6 class="card-subtitle">Add<code>.table-bordered</code>for borders on all sides of the table and cells.</h6>*@
+                <div class="">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Date </th>
+                                <th>Occasion</th>
+                                <th>Day</th>
+                                <th class="text-nowrap">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="item">
+
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>@i</td>
+                                <td>
+                                    @item.Date.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @item.Occesion
+                                </td>
+                                <td>@item.Day</td>
+                                <td class="text-nowrap">
+                                    <a data-toggle="tooltip" asp-controller="admin" asp-action="EditHoliday" asp-route-holidayId="@item.Id" data-original-title="Edit" class="btnEdit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a data-toggle="tooltip" data-original-title="Delete" asp-controller="admin" asp-action="DeleteHoliday" asp-route-id="@item.Id" onclick="return confirm('are you sure want to delete?')"> <i class="fa fa-close text-danger"></i> </a>
+                                </td>
+                            </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            
+        });
+        $(document).on('click', '.month', function () {
+            $('.list-group-item.active').removeClass('active');
+            var month = $.trim($(this).text());
+            var model = {
+                month: month
+            }
+            $(this).addClass("active");
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/Holidays',
+                datatype: "Json",
+                data: model,
+                success: function (response) {
+                    $("#item").empty();
+                    var i = 1;
+                    console.log(response);
+                    $.each(response, function () {
+                        row = `<tr>
+                                    <td>${i}</td>
+                                    <td>${DateTimeFormat(this.date)}</td>
+                                    <td>${this.occesion} </td>
+                                    <td>${this.day}</td>
+                                    <td class="text-nowrap">
+                                        <a data-toggle="tooltip" data-original-title="Edit" class="btnEdit" href="/admin/EditHoliday?holidayId=${this.id}"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                        <a data-toggle="tooltip" data-original-title="Delete" onclick="return confirm('are you sure want to delete?')" href="/admin/DeleteHoliday/${this.id}"> <i class="fa fa-close text-danger"></i> </a>
+                                    </td>
+                                  </tr>`;
+                        $("#item").append(row);
+                        i++;
+                    });
+                },
+                error: function (error) {
+                    alert("failed");
+                }
+            });
+        });
+
+        function DateTimeFormat(date) {
+            var date = new Date(date);
+            return  (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+        }
+    </script>
+}

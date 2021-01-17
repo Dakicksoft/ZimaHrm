@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ZimaHrm.Core.DataModel.LeaveGroupModel>
+@{
+    ViewData["Title"] = "Leave Group List";
+}
+
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Leave Group List</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Leave Group List</li>
+        </ol>
+    </div>
+
+    <div class="col-md-7 align-self-center text-right d-none d-md-block">
+        <a asp-action="AddLeaveGroup" class="btn btn-info"><i class="fa fa-plus-circle"></i> New Leave Group</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                @*<h4 class="card-title">Bordered Table</h4>
+                    <h6 class="card-subtitle">Add<code>.table-bordered</code>for borders on all sides of the table and cells.</h6>*@
+                <div class="">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>SL NO</th>
+                                <th>Group Name</th>
+                                <th>Leave Type (count)</th>
+                                <th class="text-nowrap">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>1</td>
+                                    <td>@item.LeaveGroupName</td>
+                                    <td>
+                                        <ul>
+                                            <li>Sick Leave : @item.SickLeave</li>
+                                            <li>Casual Leave  : @item.CasualLeave</li>
+                                            <li>Maternity  : @item.Maternity</li>
+                                            <li>UnPaid : @item.UnPaid</li>
+                                            <li>Other  : @item.Others</li>
+
+                                        </ul>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <a data-toggle="tooltip" data-original-title="Edit" asp-controller="admin" asp-action="EditGroupLeave" asp-route-id="@item.Id" class="btnEdit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                        <a data-toggle="tooltip" data-original-title="Delete" asp-controller="admin" asp-action="DeleteLeaveGroup" asp-route-id="@item.Id" onclick="return confirm('are you sure want to delete?')"> <i class="fa fa-close text-danger"></i> </a>
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+    <script type="text/javascript">
+
+    </script>
+}

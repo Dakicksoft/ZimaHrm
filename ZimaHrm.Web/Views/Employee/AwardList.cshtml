@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ZimaHrm.Core.DataModel.AwardModel>
+@{
+    ViewData["Title"] = "Award List";
+    int i = 1;
+}
+
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Award List</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Award List </li>
+        </ol>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                @*<h4 class="card-title">Bordered Table</h4>
+                    <h6 class="card-subtitle">Add<code>.table-bordered</code>for borders on all sides of the table and cells.</h6>*@
+                <div class="">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Award Title </th>
+                                <th>Employee</th>
+                                <th>Gift</th>
+                                <th>Price</th>
+                                <th>Month</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@item.AwardTitle</td>
+                                    <td>
+                                        @item.EmployeeModel.Name
+                                    </td>
+                                    <td>
+                                        @item.Gift
+                                    </td>
+                                    <td> @item.Price</td>
+                                    <td>@item.Month (@item.Date.ToShortDateString())</td>
+
+                                   
+                                </tr>
+                                i++;
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+    <script type="text/javascript">
+
+    </script>
+}

@@ -1,0 +1,223 @@
+﻿@model ZimaHrm.Core.ViewModel.DashboardViewModel
+
+@{
+    ViewBag.Title = "admin | Dashboard";
+    int j = 1;
+    int hi = 1;
+}
+<script>
+    var n = [];
+    var h = [];
+</script>
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Dashboard </h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Column -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex p-10 no-block">
+                    <div class="align-slef-center">
+                        <h2 class="m-b-0"> @Model.TotalDept</h2>
+                        <h6 class="text-muted m-b-0">Total Department</h6>
+                    </div>
+                    <div class="align-self-center display-6 ml-auto"><i class="text-success sl-icon-briefcase"></i></div>
+                </div>
+            </div>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:70%; height:3px;"> <span class="sr-only">50% Complete</span></div>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <!-- Column -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex p-10 no-block">
+                    <div class="align-slef-center">
+                        <h2 class="m-b-0">@Model.TotalEmployee</h2>
+                        <h6 class="text-muted m-b-0">Total Employee</h6>
+                    </div>
+                    <div class="align-self-center display-6 ml-auto"><i class="text-info sl-icon-people"></i></div>
+                </div>
+            </div>
+            <div class="progress">
+                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:70%; height:3px;"> <span class="sr-only">50% Complete</span></div>
+            </div>
+        </div>
+    </div>
+  
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex p-10 no-block">
+                    <div class="align-slef-center">
+                        <h2 class="m-b-0">@Model.PresentCountToday</h2>
+                        <h6 class="text-muted m-b-0">Present Today</h6>
+                    </div>
+                    <div class="align-self-center display-6 ml-auto"><i class="text-primary sl-icon-like"></i></div>
+                </div>
+            </div>
+            <div class="progress">
+                <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:70%; height:3px;"> <span class="sr-only">50% Complete</span></div>
+            </div>
+        </div>
+    </div>
+   
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex p-10 no-block">
+                    <div class="align-slef-center">
+                        <h2 class="m-b-0">@Model.AbsenceCountToday</h2>
+                        <h6 class="text-muted m-b-0">Absense Today</h6>
+                    </div>
+                    <div class="align-self-center display-6 ml-auto"><i class="text-danger sl-icon-dislike"></i></div>
+                </div>
+            </div>
+            <div class="progress">
+                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:70%; height:3px;"> <span class="sr-only">50% Complete</span></div>
+            </div>
+        </div>
+    </div>
+  
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div>
+                        <h5 class="card-title">Last Five Notices </h5>
+                    </div>
+                </div>
+                <div class="table-responsive m-t-20 no-wrap">
+                    <table class="table vm no-th-brd pro-of-month">
+                        <thead>
+                            <tr>
+                                <th width="80%">Subject</th>
+                                <th width="20%">Date Utc</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var notice in Model.Notices)
+                            {
+                                <tr>
+                                    <td> <a href="" data-toggle="modal" data-target="#myModal" onclick="myFunction(@j)">@notice.Subject </a> </td>
+                                    <td>
+                                        <small class="text-muted">@notice.CreatedUtc.ToShortDateString()</small>
+                                    </td>
+                                </tr>
+                                <script>
+                                var obj = {
+                                        subject: '@notice.Subject',
+                                        message: '@notice.Message'
+                                    };
+                                    n.push(obj);
+                                </script>
+
+                                j++;
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div>
+
+                        <h5 class="card-title">Next Five Holiday</h5>
+                    </div>
+
+                </div>
+
+                <br />
+                <table class="table vm no-th-brd pro-of-month">
+                    <thead>
+                        <tr>
+                            <th width="90%">holiday</th>
+                            <th width="10%">date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var holiday in Model.Holidays)
+                        {
+
+
+                            <tr>
+                                <td width="80%">
+                                    <a href="" data-toggle="modal" data-target="#myModal" onclick="myHoliday(@hi)">@holiday.Occesion (@holiday.Day) </a>
+
+                                </td>
+                                <td width="20%" class="font-medium  text-muted ">@holiday.Date.ToShortDateString()</td>
+                            </tr>
+                            <script>
+                                var obj = {
+                                    occesion: '@holiday.Occesion',
+                                    day: '@holiday.Day', 
+                                    date : '@holiday.Date.ToShortDateString()'
+                                    };
+                                    h.push(obj);
+                            </script>
+
+                            hi++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal popup for notice -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="sub"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="msg">
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+    <script>
+        function myFunction(id) {
+            document.getElementById("sub").innerHTML = `<strong> Subject : </strong> ${n[id - 1].subject} `;
+            document.getElementById("msg").innerHTML = `<strong> Message : </strong> ${n[id - 1].message}`;
+           }
+
+        function myHoliday(id) {
+            document.getElementById("sub").innerHTML = `<strong> Subject : </strong> ${h[id - 1].occesion} `;
+            document.getElementById("msg").innerHTML = `<strong> Message : </strong> ${h[id - 1].occesion} ${h[id - 1].day} <br/> ${h[id - 1].date} `;
+        }
+    </script>
+}

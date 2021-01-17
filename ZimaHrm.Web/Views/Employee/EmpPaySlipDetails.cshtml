@@ -1,0 +1,166 @@
+﻿@model ZimaHrm.Core.DataModel.EmployeePaySlipModel
+@{
+    ViewData["Title"] = "Employee PaySlip List";
+}
+
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Allowance List</h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="AllowanceList" asp-controller="PayRoll">Home</a></li>
+            <li class="breadcrumb-item active">Allowance/Deduction List </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <a class="btn btn-primary btn-sm" href="@Url.Action("PrintPaySlip", new { id = Model.Id})"> <i class="fa fa-print"></i>  </a>
+                        <br /><br />
+                    </div>
+                    
+
+                    <div class="col-md-12">
+                        <address class="pull-left">
+                            <h4 class="font-bold">@Model.Employee.Name </h4>
+                            <p class="m-l-30">
+                                @Model.Employee.Email
+                                <br />@Model.Employee.Mobile
+                                <br /> @Model.Employee.PresentAddress
+                            </p>
+                        </address>
+                        <address class="pull-right">
+                            <p class="m-l-30">
+                                Payment Month :  @Model.PaySlip.Month
+                                <br />Payment Date :  @Model.PaySlip.PaymentDate.ToShortDateString()
+                            </p>
+                        </address>
+
+                        @*<h4 class="card-title">Customer</h4>
+        <span>@Model.Employee.Name </span> <br />
+        <span>@Model.Employee.Email </span><br />
+        <span>@Model.Employee.Mobile </span><br />
+        <span>@Model.Employee.PresentAddress </span>*@
+                    </div>
+
+                    <div class="col-md-6">
+                        <h4 class="card-title">Allowances</h4>
+                        <table class="table color-table info-table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        No
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>Value</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.PaySlipAllowances)
+                                {
+                                    if (item.AllowanceType == "Allowance")
+                                    {
+
+                                        <tr>
+                                            <td> 1</td>
+                                            <td> @item.AllowanceName </td>
+                                            <td> @item.Value <span> @if (!item.IsValue)
+{<span> %</span>}</span></td>
+                                            <td> @item.Amount </td>
+
+                                        </tr>
+
+                                    }
+                                }
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+
+                                    <td colspan="3">Total Allowance </td>
+                                    <td> @Model.AllowanceTotal</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="card-title">Deductions</h4>
+                        <table class="table color-table danger-table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        No
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>Value</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.PaySlipAllowances)
+                                {
+                                    if (item.AllowanceType == "Deduction")
+                                    {
+
+                                        <tr>
+                                            <td> 1</td>
+                                            <td> @item.AllowanceName </td>
+                                            <td> @item.Value <span> @if (!item.IsValue)
+{<span> %</span>}</span></td>
+                                            <td> @item.Amount </td>
+
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+
+                                    <td colspan="3">Total Deduction </td>
+                                    <td> @Model.DeductionTotal</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+
+                    
+
+                    <div class="col-md-12">
+                        <hr />
+                        <table class="table table-bordered">
+                            <tr>
+                                <th><strong class="pull-right"> Basic Salarry</strong>  </th>
+                                <th><strong class="pull-right"> Total Allowance</strong> </th>
+                                <th><strong class="pull-right"> Total Deduction</strong></th>
+                            </tr>
+                            <tr>
+                                <td><span class="pull-right">@Model.Employee.BasicSalary </span> </td>
+                                <td> <span class="pull-right">@Model.AllowanceTotal </span> </td>
+                                <td><span class="pull-right"> @Model.DeductionTotal</span> </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"> <span class="pull-right"> <strong>Net Salary </strong> </span>  </td>
+                                <td><span class="pull-right"> <strong> @Model.NetSalary </strong></span> </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

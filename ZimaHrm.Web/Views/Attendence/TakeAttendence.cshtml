@@ -1,0 +1,124 @@
+﻿@model ZimaHrm.Core.ViewModel.AttendenceViewModel
+
+@{
+    ViewData["Title"] = "Take Attendence";
+    int i = 0;
+}
+<style>
+    .margin-10 {
+        margin-top: 6px;
+    }
+</style>
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">Attendence </h3>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+            <li class="breadcrumb-item active">Attendence</li>
+        </ol>
+    </div>
+
+    <div class="">
+        <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"><i class="ti-settings text-white"></i></button>
+    </div>
+</div>
+<form method="post" asp-controller="Attendence" asp-action="TakeAttendence" >
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="DepartmentId"></label>
+                                <select class="form-control" asp-for="DepartmentId" >
+                                    <option value="0">All Employee</option>
+                                </select>
+                                @*<select class="form-control" asp-for="DepartmentId" asp-items="@(ViewBag.Depertments)">
+                                    <option value="0">All Employee</option>
+                                </select>*@
+                                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="AttendenceDate">Attendence Date </label>
+                                <input type="date" class="form-control" asp-for="AttendenceDate" />
+                                <span asp-validation-for="AttendenceDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <br />
+                            <input class="btn btn-primary margin-10" type="submit" value="Search Employee" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+ </form>
+
+
+
+
+
+    @if (Model.AttendenceListViewModel != null)
+    {
+<form action="SaveAttendence" method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Employeee</th>
+                                <th>Status</th>
+                                <th>Remark</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AttendenceListViewModel)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Name
+                                        <input type="hidden" name="AttendenceListViewModel[@i].AttendenceId" value="@item.AttendenceId" />
+                                        <input type="hidden" name="AttendenceListViewModel[@i].EmployeeId" value="@item.EmployeeId" />
+                                        <input type="hidden" asp-for="AttendenceDate" />
+                                        <input type="hidden" asp-for="DepartmentId" />
+
+                                    </td>
+                                    <td>
+                                        <select asp-for="@item.Status" name="AttendenceListViewModel[@i].Status" class="form-control">
+                                            <option>Absense</option>
+                                            <option>Present</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" name="AttendenceListViewModel[@i].Remark" asp-for="@item.Remark" />
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-offset-3 col-md-4">
+                    <button type="submit" class="btn btn-success"> Save Changes</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</form>
+}
