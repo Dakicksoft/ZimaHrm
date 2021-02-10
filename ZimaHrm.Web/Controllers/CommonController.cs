@@ -158,13 +158,17 @@ namespace ZimaHrm.Web.Controllers
 
         #region Employee 
 
-        public ActionResult EmployeeList()
+        public async Task<ActionResult> EmployeeList()
         {
-            return View(_employeeRepository.All()
-                                          .AsSplitQuery()
-                                          .Include(x => x.Designation)
-                                          .Include(x => x.Department)
-                                          .Map<IList<EmployeeModel>>());
+            var all = await _employeeRepository.All()
+                                             .AsNoTracking()
+                                             .AsSplitQuery()
+                                             .Include(x => x.Designation)
+                                             .Include(x => x.Department)
+                                             .ToListAsync()
+                                             .ConfigureAwait(false);
+
+            return View(all.Map<IList<EmployeeModel>>());
         }
         [HttpGet]
         public ActionResult EditEmployee(Guid id)

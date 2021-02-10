@@ -90,6 +90,7 @@ namespace ZimaHrm.Web
             services.AddTransient<IEmployeePaySlipRepository, EmployeePaySlipRepository>();
             services.AddTransient<IPaySlipAllowanceRepository, PaySlipAllowanceRepository>();
 
+            ConfigureMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -124,6 +125,34 @@ namespace ZimaHrm.Web
 
             RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
 
+        }
+
+        private void ConfigureMapper()
+        {
+            AgileObjects.AgileMapper.Mapper.WhenMapping
+              .From<Core.DataModel.DesignationModel>()
+              .To<Designation>()
+              .Map(dto => dto.DepartmentModel, p => p.Department);
+
+            AgileObjects.AgileMapper.Mapper.WhenMapping
+                       .From<Designation>()
+                       .To<Core.DataModel.DesignationModel>()
+                       .Map(dto => dto.Department, p => p.DepartmentModel);
+
+
+            AgileObjects.AgileMapper.Mapper.WhenMapping
+                        .From<Core.DataModel.EmployeeModel>()
+                        .To<Employee>()
+                        .Map(dto => dto.DepartmentModel, p => p.Department)
+                        .And
+                        .Map(dto => dto.DesignationModel, p => p.Designation);
+
+            AgileObjects.AgileMapper.Mapper.WhenMapping
+                       .From<Employee>()
+                       .To<Core.DataModel.EmployeeModel>()
+                       .Map(dto => dto.Department, p => p.DepartmentModel)
+                       .And
+                       .Map(dto => dto.Designation, p => p.DesignationModel); ;
         }
     }
 }

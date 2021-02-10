@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<ZimaHrm.Core.DataModel.DepartmentModel>
 @{
-    ViewData["Title"] = "DesignationList";
+    ViewData["Title"] = "Designation List";
     int i = 1;
 }
 
@@ -65,8 +65,8 @@
                                             </span> 
                                         </td>
                                         <td>
-                                            <a data-toggle="tooltip" asp-controller="common" asp-action="EditDesignation" asp-route-designationId="@item.Id" data-original-title="Edit" class="btnEdit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                            <a data-toggle="tooltip" data-original-title="Delete" asp-controller="common" asp-action="DeleteDesignation" asp-route-id="@item.Id" onclick="return confirm('are you sure want to delete?')"> <i class="fa fa-close text-danger"></i> </a>
+                                            <a data-toggle="tooltip" asp-controller="common" asp-action="EditDesignation" asp-route-designationId="@dept.Id" data-original-title="Edit" class="btnEdit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                            <a data-toggle="tooltip" data-original-title="Delete" asp-controller="common" asp-action="DeleteDesignation" asp-route-id="@dept.Id" onclick="return confirm('are you sure want to delete?')"> <i class="fa fa-close text-danger"></i> </a>
                                         </td>
                                     </tr>
                                    
