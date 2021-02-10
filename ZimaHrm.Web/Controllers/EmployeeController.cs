@@ -15,8 +15,6 @@ using ZimaHrm.Data.Repository.Interfaces;
 using ZimaHrm.Data.Repository.PaySlip;
 using ZimaHrm.Web.Services;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ZimaHrm.Web.Controllers
 {
     [Authorize(Roles = "User")]
@@ -82,7 +80,7 @@ namespace ZimaHrm.Web.Controllers
                                                                   .ToListAsync()
                                                                   .ConfigureAwait(false);
 
-            return View(leaveApplications.Map<LeaveApplicationModel>());
+            return View(leaveApplications.Map<List<LeaveApplicationModel>>());
         }
         [HttpGet]
         public ActionResult LeaveApplication()
@@ -113,7 +111,7 @@ namespace ZimaHrm.Web.Controllers
                 leaveApp.EmployeeId == Guid.Parse(_currentUser.UserId))
             {
                 ViewBag.LeaveTypes = leaveTypeRepository.GetAllLeaveTypeForDropDown();
-                return View(leaveApp);
+                return View(leaveApp.Map<LeaveApplicationModel>());
             }
             return RedirectToAction(nameof(LeaveApplicationList));
         }
@@ -233,8 +231,7 @@ namespace ZimaHrm.Web.Controllers
                     var statusR = empStatusVm.statustViewModel.FindIndex(x => x.Date.ToShortDateString() == attndDate);
                     empStatusVm.statustViewModel.RemoveAt(statusR);
 
-                    var status = new StatustViewModel();
-                    status.Date = attEmp.AttendenceDate;
+                    var status = new StatustViewModel {Date = attEmp.AttendenceDate};
                     if (attEmp.Status == "Present")
                     {
                         status.Status = "Present";
@@ -269,6 +266,7 @@ namespace ZimaHrm.Web.Controllers
                                                            .Include(x => x.Employee)
                                                            .Include(x => x.PaySlip)
                                                            .FirstOrDefault(x => x.Id == id && x.EmployeeId == Guid.Parse(_currentUser.UserId));
+            
             employeePaySlip.PaySlipAllowances = paySlipAllowanceRepository.All()
                                                                           .Where(x => x.EmployeePaySlipId == employeePaySlip.Id)
                                                                           .ToList();

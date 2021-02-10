@@ -8,7 +8,7 @@ namespace ZimaHrm.Data.Repository.Interfaces
 {
     public interface IDepartmentRepository : IBaseRepository<Department>
     {
-        IEnumerable<SelectListItem> GetAllDepertmentForDropDown();
+        IEnumerable<SelectListItem> GetAllDepartmentForDropDown();
 
         bool AlreadyExist(string deptName, Guid id);
     }

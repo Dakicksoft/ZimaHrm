@@ -43,14 +43,14 @@ namespace ZimaHrm.Core.DataModel
         [DisplayName("Resign Date")]
         public DateTime ResignDate { get; set; }
 
-        [ForeignKey("DepertmentModel")]
-        [DisplayName("Depertment")]
-        public Guid DepertmentId { get; set; }
-        public DepartmentModel DepertmentModel { get; set; }
+        [ForeignKey("DepartmentModel")]
+        [DisplayName("Department")]
+        public Guid DepartmentId { get; set; }
+        public DepartmentModel DepartmentModel { get; set; }
         
         [ForeignKey("DesignationModel")]
         [DisplayName("Designation")]
-        public Guid DegisnationId { get; set; }
+        public Guid DesignationId { get; set; }
         public DesignationModel DesignationModel { get; set; }
 
 

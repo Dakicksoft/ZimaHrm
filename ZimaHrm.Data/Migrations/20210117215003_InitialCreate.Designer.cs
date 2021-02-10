@@ -419,10 +419,10 @@ namespace ZimaHrm.Data.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("DegisnationId")
+                    b.Property<Guid>("DesignationId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DepertmentId")
+                    b.Property<Guid>("DepartmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -477,9 +477,9 @@ namespace ZimaHrm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DegisnationId");
+                    b.HasIndex("DesignationId");
 
-                    b.HasIndex("DepertmentId");
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Employee");
                 });
@@ -1257,17 +1257,17 @@ namespace ZimaHrm.Data.Migrations
                 {
                     b.HasOne("ZimaHrm.Data.Entity.Designation", "Designation")
                         .WithMany()
-                        .HasForeignKey("DegisnationId")
+                        .HasForeignKey("DesignationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ZimaHrm.Data.Entity.Department", "Depertment")
+                    b.HasOne("ZimaHrm.Data.Entity.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("DepertmentId")
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Depertment");
+                    b.Navigation("Department");
 
                     b.Navigation("Designation");
                 });

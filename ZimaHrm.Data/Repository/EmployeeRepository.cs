@@ -21,7 +21,7 @@ namespace ZimaHrm.Data.Repository
         {
             if (deptId == Guid.Empty)
                 return All();
-            return All().Where(x => x.DepertmentId == deptId);
+            return All().Where(x => x.DepartmentId == deptId);
         }
 
         public IEnumerable<SelectListItem> GetAllEmployeeExceptMappingForDropDown()

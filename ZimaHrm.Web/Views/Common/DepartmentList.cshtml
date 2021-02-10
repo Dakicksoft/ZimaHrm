@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<ZimaHrm.Core.DataModel.DepartmentModel>
 @{
-    ViewData["Title"] = "Depertment List";
+    ViewData["Title"] = "Department List";
     int i = 1;
 }
 
 
 <div class="row page-titles">
     <div class="col-md-5 align-self-center">
-        <h3 class="text-themecolor">Depertment List</h3>
+        <h3 class="text-themecolor">Department List</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Dashboard">Home</a></li>
-            <li class="breadcrumb-item active">Depertment List </li>
+            <li class="breadcrumb-item active">Department List </li>
         </ol>
     </div>
     <div class="col-md-7 align-self-center text-right d-none d-md-block">
@@ -66,7 +66,7 @@
                 <form  asp-controller="common" asp-action="DepartmentList" method="post">
                     <div class="form-group">
                         <label for="Name">Department</label>
-                        <input type="hidden" name="Id" value="0" id="inputId"/>
+                        <input type="hidden" name="Id" value="@Guid.Empty" id="inputId"/>
                          <input type="text" name="Name" class="form-control" id="Name" placeholder="Enter Department Name">
                         @Html.ValidationMessage("Name", "", new { @class = "text-danger" })
                     </div>
@@ -84,7 +84,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $(".btnEdit").click(function () {
-                var id = parseInt($(this).attr("data-val-id"));
+                var id =$(this).attr("data-val-id");
                 var name = $.trim($(this).closest('tr').children('td:eq(1)').text());
                 if (name !== "" && id !== null) {
                     $("#Name").val(name);
@@ -96,7 +96,7 @@
 
             $("#btnCancel").click(function () {
                 $("#btnSave").html('<i class="fa fa-plus"></i> Add');
-                $("#inputId").val('0');
+                $("#inputId").val('00000000-0000-0000-0000-000000000000');
                 $("#Name").val("");
             });
         });

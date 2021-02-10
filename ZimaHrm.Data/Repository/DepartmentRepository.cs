@@ -30,7 +30,7 @@ namespace ZimaHrm.Data.Repository
             }
         }
 
-        public IEnumerable<SelectListItem> GetAllDepertmentForDropDown()
+        public IEnumerable<SelectListItem> GetAllDepartmentForDropDown()
         {
             return All().Select(x => new SelectListItem
             {

@@ -413,8 +413,8 @@ namespace ZimaHrm.Data.Migrations
                     Status = table.Column<bool>(type: "bit", nullable: false),
                     JoiningDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ResignDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DepertmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DegisnationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DepartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DesignationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AccountName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SWIFTCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -432,14 +432,14 @@ namespace ZimaHrm.Data.Migrations
                 {
                     table.PrimaryKey("PK_Employee", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Employee_Department_DepertmentId",
-                        column: x => x.DepertmentId,
+                        name: "FK_Employee_Department_DepartmentId",
+                        column: x => x.DepartmentId,
                         principalTable: "Department",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Employee_Designation_DegisnationId",
-                        column: x => x.DegisnationId,
+                        name: "FK_Employee_Designation_DesignationId",
+                        column: x => x.DesignationId,
                         principalTable: "Designation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -718,14 +718,14 @@ namespace ZimaHrm.Data.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employee_DegisnationId",
+                name: "IX_Employee_DesignationId",
                 table: "Employee",
-                column: "DegisnationId");
+                column: "DesignationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employee_DepertmentId",
+                name: "IX_Employee_DepartmentId",
                 table: "Employee",
-                column: "DepertmentId");
+                column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeePaySlip_EmployeeId",

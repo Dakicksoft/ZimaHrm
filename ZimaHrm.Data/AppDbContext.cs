@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Reflection;
 using ZimaHrm.Data.Entity;
@@ -13,7 +12,7 @@ namespace ZimaHrm.Data
         {
         }
 
-        public DbSet<Department> Depertments { get; set; }
+        public DbSet<Department> Departments { get; set; }
         public DbSet<Designation> Designations { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Company> Company { get; set; }
@@ -39,7 +38,7 @@ namespace ZimaHrm.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Employee>()
-                .HasOne(x => x.Depertment)
+                .HasOne(x => x.Department)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
 

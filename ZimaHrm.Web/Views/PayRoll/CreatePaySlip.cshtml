@@ -21,7 +21,7 @@
                                 <div class="form-group">
                                     <label asp-for="DepartmentId"></label>
                                     <select class="form-control" asp-for="DepartmentId" asp-items="@(ViewBag.Departments)">
-                                        <option value="0">All Employee</option>
+                                        <option value="@Guid.Empty">All Employee</option>
                                     </select>
                                     <span asp-validation-for="DepartmentId" class="text-danger"></span>
                                 </div>

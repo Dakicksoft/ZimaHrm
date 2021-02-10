@@ -13,8 +13,6 @@ using ZimaHrm.Data.Entity;
 using ZimaHrm.Core.Infrastructure.Mapping;
 using System.Threading.Tasks;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace ZimaHrm.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
@@ -78,14 +76,14 @@ namespace ZimaHrm.Web.Controllers
                 if (_allowanceTypeRepository.All().Any(x => x.AllowanceTypeName == model.AllowanceTypeName))
                 {
                     ModelState.AddModelError("AllowanceTypeName", "Already Exists!");
-                    return View(_allowanceTypeRepository.All());
+                    return View(_allowanceTypeRepository.All().ToList().Map<List<AllowanceTypeModel>>());
                 }
 
                 var insertDomain = model.Map<AllowanceType>();
                 _allowanceTypeRepository.Insert(insertDomain);
                 return RedirectToAction(nameof(AllowanceTypeList));
             }
-            return View(_allowanceTypeRepository.All());
+            return View(_allowanceTypeRepository.All().ToList().Map<List<AllowanceTypeModel>>());
         }
 
         public IActionResult DeleteAllowanceType(Guid id)
@@ -105,19 +103,19 @@ namespace ZimaHrm.Web.Controllers
         public IActionResult AllowanceList(Guid id)
 
         {
-            ViewBag.Depertments = _allowanceTypeRepository.GetAllForDropDown();
+            ViewBag.Departments = _allowanceTypeRepository.GetAllForDropDown();
             ViewBag.AllowanceList = _allowanceRepository.All();
             if (id != Guid.Empty)
             {
                 var allowance = _allowanceRepository.Find(id);
-                return View(allowance);
+                return View(allowance.Map<AllowanceModel>());
             }
             return View(new AllowanceModel());
         }
         [HttpPost]
         public IActionResult AllowanceList(AllowanceModel model)
         {
-            ViewBag.Depertments = _allowanceTypeRepository.GetAllForDropDown();
+            ViewBag.Departments = _allowanceTypeRepository.GetAllForDropDown();
             ViewBag.AllowanceList = _allowanceRepository.All();
             if (ModelState.IsValid)
             {
@@ -130,7 +128,7 @@ namespace ZimaHrm.Web.Controllers
                 if (_allowanceRepository.All().Any(x => x.AllowanceType == model.AllowanceType))
                 {
                     ModelState.AddModelError("AllowanceType", "Already Added into allowance List");
-                    ViewBag.Depertments = _allowanceTypeRepository.GetAllForDropDown();
+                    ViewBag.Departments = _allowanceTypeRepository.GetAllForDropDown();
                     ViewBag.AllowanceList = _allowanceRepository.All();
                     return View(model);
                 }
@@ -157,7 +155,7 @@ namespace ZimaHrm.Web.Controllers
         [HttpGet]
         public IActionResult EmployeeWithAllowance()
         {
-            ViewBag.Depertments = _departmentRepository.GetAllDepertmentForDropDown();
+            ViewBag.Departments = _departmentRepository.GetAllDepartmentForDropDown();
             return View();
         }
         [HttpPost]
@@ -220,7 +218,7 @@ namespace ZimaHrm.Web.Controllers
         [HttpGet]
         public ActionResult CreatePaySlip()
         {
-            ViewBag.Departments = _departmentRepository.GetAllDepertmentForDropDown();
+            ViewBag.Departments = _departmentRepository.GetAllDepartmentForDropDown();
             return View();
         }
         [HttpPost]
@@ -229,11 +227,11 @@ namespace ZimaHrm.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Departments = _departmentRepository.GetAllDepertmentForDropDown();
+                ViewBag.Departments = _departmentRepository.GetAllDepartmentForDropDown();
                 return View(model);
             }
             model.Month = new DateTime(DateTime.Now.Year, Convert.ToInt16(model.Month), DateTime.Now.Day).ToString("MMMM", CultureInfo.InvariantCulture);
-            var employees = new List<EmployeeModel>();
+            List<EmployeeModel> employees;
             _paySlipRepository.Insert(model.Map<PaySlip>());
             if (model.DepartmentId != Guid.Empty)
                 employees = _employeeRepository.AllByDepartmentId(model.DepartmentId)
@@ -306,7 +304,7 @@ namespace ZimaHrm.Web.Controllers
                                                    .Include(x => x.Employee)
                                                    .Where(x => x.PaySlipId == id)
                                                    .ToList();
-            return View(details);
+            return View(details.Map<List<EmployeePaySlipModel>>());
         }
 
         public ActionResult DeletePaySlip(Guid id)

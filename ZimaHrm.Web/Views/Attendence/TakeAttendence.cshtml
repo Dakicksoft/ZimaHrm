@@ -33,12 +33,12 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="DepartmentId"></label>
-                                <select class="form-control" asp-for="DepartmentId" >
-                                    <option value="0">All Employee</option>
+                                <select class="form-control" asp-for="DepartmentId">
+                                    <option value="@Guid.Empty">All Employee</option>
                                 </select>
-                                @*<select class="form-control" asp-for="DepartmentId" asp-items="@(ViewBag.Depertments)">
-                                    <option value="0">All Employee</option>
-                                </select>*@
+                                @*<select class="form-control" asp-for="DepartmentId" asp-items="@(ViewBag.Departments)">
+            <option value="@Guid.Empty">All Employee</option>
+        </select>*@
                                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
                             </div>
 

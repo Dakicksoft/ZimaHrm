@@ -11,7 +11,9 @@ namespace ZimaHrm.Data
             var builder = new DbContextOptionsBuilder<AppDbContext>();
 
             //Change here
-            builder.UseSqlServer("Server=.\\SQLExpress,1433;Initial Catalog=hrmdb;Persist Security Info=False;User ID=zimahrm;Password={YOUR_PASSWORD};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;").EnableDetailedErrors().EnableSensitiveDataLogging();
+            builder.UseSqlServer("Server=localhost,1433;Initial Catalog=hrmdb;Persist Security Info=False;User ID=sa;Password=myPass123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;")
+                   .EnableDetailedErrors()
+                   .EnableSensitiveDataLogging();
 
             return new AppDbContext(builder.Options);
         }

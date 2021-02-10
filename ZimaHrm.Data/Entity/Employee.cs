@@ -35,12 +35,12 @@ namespace ZimaHrm.Data.Entity
         public DateTime JoiningDate { get; set; }
         public DateTime ResignDate { get; set; }
 
-        [ForeignKey("Depertment")]
-        public Guid DepertmentId { get; set; }
-        public Department Depertment { get; set; }
+        [ForeignKey("Department")]
+        public Guid DepartmentId { get; set; }
+        public Department Department { get; set; }
         
         [ForeignKey("Designation")]
-        public Guid DegisnationId { get; set; }
+        public Guid DesignationId { get; set; }
         public Designation Designation { get; set; }
 
 

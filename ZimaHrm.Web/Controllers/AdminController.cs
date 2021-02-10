@@ -5,7 +5,6 @@ using ZimaHrm.Core.DataModel;
 using ZimaHrm.Core.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ZimaHrm.Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -30,15 +29,12 @@ namespace ZimaHrm.Web.Controllers
         private readonly ILeaveApplicationRepository _leaveApplicationRepository;
         private readonly IAuthenticatedUserService _currentUser;
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<Role> _roleManager;
 
         public AdminController(IHolidayRepository holidayRepository, IAwardRepository awardRepository,
             IEmployeeRepository employeeRepository, INoticeRepository noticeRepository,
             IDashboardRepository dashboardRepository, ILeaveGroupRepository leaveGroupRepository,
             ILeaveEmployeeRepository leaveEmployeeRepository, ILeaveTypeRepository leaveTypeRepository,
-            ILeaveApplicationRepository leaveApplicationRepository, UserManager<User> userManager,
-            SignInManager<User> signInManager, RoleManager<Role> roleManager, IAuthenticatedUserService authenticatedUser)
+            ILeaveApplicationRepository leaveApplicationRepository, UserManager<User> userManager, IAuthenticatedUserService authenticatedUser)
         {
             this._holidayRepository = holidayRepository;
             this._awardRepository = awardRepository;
@@ -50,8 +46,6 @@ namespace ZimaHrm.Web.Controllers
             this._leaveTypeRepository = leaveTypeRepository;
             this._leaveApplicationRepository = leaveApplicationRepository;
             _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
             _currentUser = authenticatedUser;
         }
 
@@ -146,7 +140,7 @@ namespace ZimaHrm.Web.Controllers
             var holiday = _holidayRepository.Find(holidayId);
             if (holiday != null)
             {
-                return View(holiday);
+                return View(holiday.Map<HolidayModel>());
             }
             return RedirectToAction(nameof(Holidays));
         }
@@ -216,7 +210,7 @@ namespace ZimaHrm.Web.Controllers
             if (award != null)
             {
                 ViewBag.Employees = _employeeRepository.GetAllEmployeeForDropDown();
-                return View(award);
+                return View(award.Map<AwardModel>());
             }
             return RedirectToAction(nameof(AwardList));
         }
@@ -317,7 +311,7 @@ namespace ZimaHrm.Web.Controllers
         public async Task<IActionResult> LeaveTypeList(LeaveTypeModel model)
         {
             var query = _leaveTypeRepository.All();
-            List<LeaveType> leaveTypes = null;
+            List<LeaveType> leaveTypes;
             if (ModelState.IsValid)
             {
                 if (model.Id != Guid.Empty)
@@ -463,12 +457,12 @@ namespace ZimaHrm.Web.Controllers
         [HttpGet]
         public IActionResult EditLeaveGroupEmployee(Guid id)
         {
-            var leaveEmployeee = _leaveEmployeeRepository.Find(id);
-            if (leaveEmployeee != null)
+            var leaveEmployee = _leaveEmployeeRepository.Find(id);
+            if (leaveEmployee != null)
             {
                 ViewBag.Employees = _employeeRepository.GetAllEmployeeForDropDown();
                 ViewBag.LeaveGroups = _leaveGroupRepository.GetAllLeaveGroupForDropDown();
-                return View(leaveEmployeee);
+                return View(leaveEmployee.Map<LeaveEmployeeModel>());
             }
             return RedirectToAction(nameof(LeaveGroupMappingList));
         }

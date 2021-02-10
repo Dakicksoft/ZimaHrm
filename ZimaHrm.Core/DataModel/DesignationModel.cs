@@ -14,9 +14,9 @@ namespace ZimaHrm.Core.DataModel
         [Remote("DesgExists", "Common", HttpMethod ="POST", ErrorMessage ="Name Already exists")]
         public string Name { get; set; }
 
-        [ForeignKey("DepertmentModel")]
-        [DisplayName("Depertment")]
-        public Guid DepertmentId { get; set; }
-        public DepartmentModel DepertmentModel { get; set; }
+        [ForeignKey("DepartmentModel")]
+        [DisplayName("Department")]
+        public Guid DepartmentId { get; set; }
+        public DepartmentModel DepartmentModel { get; set; }
     }
 }

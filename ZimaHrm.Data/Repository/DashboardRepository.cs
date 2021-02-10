@@ -42,7 +42,7 @@ namespace ZimaHrm.Data.Repository
 
         public async Task<int> TotalDepartmentAsync()
         {
-            return await _context.Depertments
+            return await _context.Departments
                                  .AsNoTracking()
                                  .CountAsync()
                                  .ConfigureAwait(false);

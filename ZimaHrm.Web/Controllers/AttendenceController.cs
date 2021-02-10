@@ -30,7 +30,7 @@ namespace ZimaHrm.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.Depertments = departmentRepository.GetAllDepertmentForDropDown();
+            ViewBag.Departments = departmentRepository.GetAllDepartmentForDropDown();
             //ViewBag.Months = 
             return View();
         }
@@ -94,13 +94,13 @@ namespace ZimaHrm.Web.Controllers
         [HttpGet]
         public ActionResult TakeAttendence()
         {
-            ViewBag.Depertments = departmentRepository.GetAllDepertmentForDropDown();
+            ViewBag.Departments = departmentRepository.GetAllDepartmentForDropDown();
             return View(new AttendenceViewModel());
         }
         [HttpPost]
         public ActionResult TakeAttendence(AttendenceViewModel model)
         {
-            ViewBag.Depertments = departmentRepository.GetAllDepertmentForDropDown();
+            ViewBag.Departments = departmentRepository.GetAllDepartmentForDropDown();
             var attendences = attendenceRepository.All().Any(x => x.AttendenceDate == model.AttendenceDate);
             AttendenceViewModel vm = new AttendenceViewModel();
             vm.AttendenceDate = model.AttendenceDate;

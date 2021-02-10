@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -97,7 +98,7 @@ namespace ZimaHrm.Web.Controllers
         [HttpGet]
         public ActionResult AddDesignation()
         {
-            ViewBag.Depertments = _departmentRepository.GetAllDepertmentForDropDown();
+            ViewBag.Departments = _departmentRepository.GetAllDepartmentForDropDown();
             return View();
         }
         [HttpPost]
@@ -110,12 +111,12 @@ namespace ZimaHrm.Web.Controllers
         }
         public async Task<IActionResult> DesignationList()
         {
-            var departmens = await _departmentRepository.All()
+            var departments = await _departmentRepository.All()
                                                      .AsSplitQuery()
                                                      .Include(x => x.Designations)
                                                      .ToListAsync()
                                                      .ConfigureAwait(false);
-            return View(departmens.Map<List<DepartmentModel>>());
+            return View(departments.Map<List<DepartmentModel>>());
         }
         [HttpGet]
         public ActionResult EditDesignation(Guid designationId)
@@ -123,8 +124,8 @@ namespace ZimaHrm.Web.Controllers
             var designation = _designationRepository.Find(designationId);
             if (designation != null)
             {
-                ViewBag.Depertments = _departmentRepository.GetAllDepertmentForDropDown();
-                return View(designation);
+                ViewBag.Departments = _departmentRepository.GetAllDepartmentForDropDown();
+                return View(designation.Map<DesignationModel>());
             }
                
             return RedirectToAction(nameof(DesignationList));
@@ -135,7 +136,7 @@ namespace ZimaHrm.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Depertments = _departmentRepository.GetAllDepertmentForDropDown();
+                ViewBag.Departments = _departmentRepository.GetAllDepartmentForDropDown();
                 return View(model);
             }
             _designationRepository.Update(model.Map<Designation>(), model.Id);
@@ -162,23 +163,23 @@ namespace ZimaHrm.Web.Controllers
             return View(_employeeRepository.All()
                                           .AsSplitQuery()
                                           .Include(x => x.Designation)
-                                          .Include(x => x.Depertment)
+                                          .Include(x => x.Department)
                                           .Map<IList<EmployeeModel>>());
         }
         [HttpGet]
         public ActionResult EditEmployee(Guid id)
         {
             var employee = _employeeRepository.Find(id);
-            ViewBag.Department = _departmentRepository.GetAllDepertmentForDropDown();
+            ViewBag.Department = _departmentRepository.GetAllDepartmentForDropDown();
             ViewBag.Designation = _designationRepository.GetAllDesignationForDropDown();
-            return View(employee);
+            return View(employee.Map<EmployeeModel>());
         }
 
         public ActionResult EditEmployee(EmployeeModel model, IFormFile logoPostedFileBase)
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Department = _departmentRepository.GetAllDepertmentForDropDown();
+                ViewBag.Department = _departmentRepository.GetAllDepartmentForDropDown();
                 ViewBag.Designation = _designationRepository.GetAllDesignationForDropDown();
                 return View(model);
             }
@@ -206,8 +207,8 @@ namespace ZimaHrm.Web.Controllers
             employee.PresentAddress = model.PresentAddress;
             employee.Gender = model.Gender;
             employee.Email = model.Email;
-            employee.DegisnationId = model.DegisnationId;
-            employee.DepertmentId = model.DepertmentId;
+            employee.DesignationId = model.DesignationId;
+            employee.DepartmentId = model.DepartmentId;
 
             employee.BasicSalary = model.BasicSalary;
             employee.ResignDate = model.ResignDate;
@@ -224,20 +225,21 @@ namespace ZimaHrm.Web.Controllers
         public async Task<IActionResult> DeleteEmployee(Guid id)
         {
             var emp = _employeeRepository.Find(id);
-            if (emp != null)
+            if (emp == null)
             {
-                _employeeRepository.Delete(emp);
-                var user =await _userManager.FindByIdAsync(emp.Id.ToString());
-
-                await _userManager.DeleteAsync(user);
                 return RedirectToAction(nameof(EmployeeList));
             }
+
+            _employeeRepository.Delete(emp);
+            var user =await _userManager.FindByIdAsync(emp.Id.ToString());
+
+            await _userManager.DeleteAsync(user);
             return RedirectToAction(nameof(EmployeeList));
         }
         [HttpGet]
         public ActionResult AddEmployee()
         {
-            ViewBag.Department = _departmentRepository.GetAllDepertmentForDropDown();
+            ViewBag.Department = _departmentRepository.GetAllDepartmentForDropDown();
             ViewBag.Designation = _designationRepository.GetAllDesignationForDropDown();
             return View(new EmployeeModel());
         }
@@ -266,7 +268,7 @@ namespace ZimaHrm.Web.Controllers
                 Email = model.Email,
                 FirstName = model.Name,
                 AvatarURL = "/images/user.png",
-                DateRegisteredUTC = DateTime.UtcNow.ToString(),
+                DateRegisteredUTC = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture),
                 PhoneNumber = model.Mobile,
                 Status = UserStatus.AllGood,
                 EmailConfirmed = true
