@@ -165,10 +165,51 @@ namespace ZimaHrm.Web.Controllers
                                              .AsSplitQuery()
                                              .Include(x => x.Designation)
                                              .Include(x => x.Department)
+                                             .Select(x=>new EmployeeModel
+                                             { 
+                                              AccountName=x.AccountName,
+                                              AccountNumber=x.AccountNumber,
+                                              BasicSalary=x.BasicSalary,
+                                              Branch=x.Branch,
+                                              CreatedBy=x.CreatedBy,
+                                              CreatedUtc=x.CreatedUtc,
+                                              CV=x.CV,
+                                              DateOfBirth=x.DateOfBirth,
+                                              DepartmentId=x.DepartmentId,
+                                              DepartmentModel=new DepartmentModel
+                                              {
+                                                  CreatedBy=x.Department.CreatedBy,
+                                                  CreatedUtc=x.Department.CreatedUtc,
+                                                  Description=x.Department.Description,
+                                                  Id=x.Department.Id,
+                                                  IsDelete=x.Department.IsDelete,
+                                                  LastModifiedBy=x.Department.LastModifiedBy,
+                                                  LastModifiedUtc=x.Department.LastModifiedUtc,
+                                                  Name=x.Department.Name
+                                              },
+                                              DesignationId=x.DesignationId,
+                                              Email=x.Email,
+                                              Gender=x.Gender,
+                                              Id=x.Id,
+                                              ImagePath=x.ImagePath,
+                                              IsDelete=x.IsDelete,
+                                              JoiningDate=x.JoiningDate,
+                                              LastModifiedBy=x.LastModifiedBy,
+                                              LastModifiedUtc=x.LastModifiedUtc,
+                                              Mobile=x.Mobile,
+                                              Name=x.Name,
+                                              NationalId=x.NationalId,
+                                              Other=x.Other,
+                                              PermanentAddress=x.PermanentAddress,
+                                              PresentAddress=x.PresentAddress,
+                                              ResignDate=x.ResignDate,
+                                              Status=x.Status,
+                                              SWIFTCode=x.SWIFTCode
+                                             })
                                              .ToListAsync()
                                              .ConfigureAwait(false);
 
-            return View(all.Map<IList<EmployeeModel>>());
+            return View(all);
         }
         [HttpGet]
         public ActionResult EditEmployee(Guid id)

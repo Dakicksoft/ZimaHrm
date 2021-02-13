@@ -143,9 +143,7 @@ namespace ZimaHrm.Web
             AgileObjects.AgileMapper.Mapper.WhenMapping
                         .From<Core.DataModel.EmployeeModel>()
                         .To<Employee>()
-                        .Map(dto => dto.DepartmentModel, p => p.Department)
-                        .And
-                        .Map(dto => dto.DesignationModel, p => p.Designation);
+                        .Map(dto => dto.DepartmentModel, p => p.Department);
 
             AgileObjects.AgileMapper.Mapper.WhenMapping
                        .From<Employee>()
