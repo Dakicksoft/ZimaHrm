@@ -150,7 +150,7 @@ namespace ZimaHrm.Web
                        .To<Core.DataModel.EmployeeModel>()
                        .Map(dto => dto.Department, p => p.DepartmentModel)
                        .And
-                       .Map(dto => dto.Designation, p => p.DesignationModel); ;
+                       .Map(dto => dto.Designation, p => p.DesignationModel);
         }
     }
 }

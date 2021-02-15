@@ -188,6 +188,17 @@ namespace ZimaHrm.Web.Controllers
                                                   Name=x.Department.Name
                                               },
                                               DesignationId=x.DesignationId,
+                                              DesignationModel=new DesignationModel
+                                              { 
+                                               CreatedBy=x.Designation.CreatedBy,
+                                               CreatedUtc=x.Designation.CreatedUtc,
+                                               DepartmentId=x.Designation.DepartmentId,
+                                               Id=x.Designation.Id,
+                                               IsDelete=x.Designation.IsDelete,
+                                               LastModifiedBy=x.Designation.LastModifiedBy,
+                                               LastModifiedUtc=x.Designation.LastModifiedUtc,
+                                               Name=x.Designation.Name
+                                              },
                                               Email=x.Email,
                                               Gender=x.Gender,
                                               Id=x.Id,
@@ -212,12 +223,73 @@ namespace ZimaHrm.Web.Controllers
             return View(all);
         }
         [HttpGet]
-        public ActionResult EditEmployee(Guid id)
+        public async Task<ActionResult> EditEmployee(Guid id)
         {
-            var employee = _employeeRepository.Find(id);
+            var employee =await _employeeRepository.All()
+                                                   .AsSplitQuery()
+                                                   .AsNoTracking()
+                                                   .Include(s=>s.Department)
+                                                   .Include(s=>s.Designation)
+                                                   .SingleAsync(s=>s.Id==id)
+                                                   .ConfigureAwait(false);
+
             ViewBag.Department = _departmentRepository.GetAllDepartmentForDropDown();
             ViewBag.Designation = _designationRepository.GetAllDesignationForDropDown();
-            return View(employee.Map<EmployeeModel>());
+
+
+            var model = new EmployeeModel
+                {
+                    AccountName = employee.AccountName,
+                    AccountNumber = employee.AccountNumber,
+                    BasicSalary = employee.BasicSalary,
+                    Branch = employee.Branch,
+                    CreatedBy = employee.CreatedBy,
+                    CreatedUtc = employee.CreatedUtc,
+                    CV = employee.CV,
+                    DateOfBirth = employee.DateOfBirth,
+                    DepartmentId = employee.DepartmentId,
+                    DepartmentModel = new DepartmentModel
+                    {
+                        CreatedBy = employee.Department.CreatedBy,
+                        CreatedUtc = employee.Department.CreatedUtc,
+                        Description = employee.Department.Description,
+                        Id = employee.Department.Id,
+                        IsDelete = employee.Department.IsDelete,
+                        LastModifiedBy = employee.Department.LastModifiedBy,
+                        LastModifiedUtc = employee.Department.LastModifiedUtc,
+                        Name = employee.Department.Name
+                    },
+                    DesignationId = employee.DesignationId,
+                    DesignationModel = new DesignationModel
+                    {
+                        CreatedBy = employee.Designation.CreatedBy,
+                        CreatedUtc = employee.Designation.CreatedUtc,
+                        DepartmentId = employee.Designation.DepartmentId,
+                        Id = employee.Designation.Id,
+                        IsDelete = employee.Designation.IsDelete,
+                        LastModifiedBy = employee.Designation.LastModifiedBy,
+                        LastModifiedUtc = employee.Designation.LastModifiedUtc,
+                        Name = employee.Designation.Name
+                    },
+                    Email = employee.Email,
+                    Gender = employee.Gender,
+                    Id = employee.Id,
+                    ImagePath = employee.ImagePath,
+                    IsDelete = employee.IsDelete,
+                    JoiningDate = employee.JoiningDate,
+                    LastModifiedBy = employee.LastModifiedBy,
+                    LastModifiedUtc = employee.LastModifiedUtc,
+                    Mobile = employee.Mobile,
+                    Name = employee.Name,
+                    NationalId = employee.NationalId,
+                    Other = employee.Other,
+                    PermanentAddress = employee.PermanentAddress,
+                    PresentAddress = employee.PresentAddress,
+                    ResignDate = employee.ResignDate,
+                    Status = employee.Status,
+                    SWIFTCode = employee.SWIFTCode
+                };
+            return View(model);
         }
 
         public ActionResult EditEmployee(EmployeeModel model, IFormFile logoPostedFileBase)
@@ -306,7 +378,34 @@ namespace ZimaHrm.Web.Controllers
                 }
                 model.ImagePath = $"/Images/{logoPostedFileBase.FileName}";
             }
-            _employeeRepository.Insert(model.Map<Employee>());
+
+            var domain = new Employee
+            {
+                AccountName=model.AccountName,
+                AccountNumber=model.AccountNumber,
+                BasicSalary=model.BasicSalary,
+                Branch=model.Branch,
+                CV=model.CV,
+                DateOfBirth=model.DateOfBirth,
+                DepartmentId=model.DepartmentId,
+                DesignationId=model.DesignationId,
+                Email=model.Email,
+                Gender=model.Gender,
+                ImagePath=model.ImagePath,
+                JoiningDate=model.JoiningDate,
+                Mobile=model.Mobile,
+                Name=model.Name,
+                NationalId=model.NationalId,
+                Other=model.Other,
+                PermanentAddress=model.PermanentAddress,
+                PresentAddress=model.PresentAddress,
+                ResignDate=model.ResignDate,
+                Status=model.Status,
+                SWIFTCode=model.SWIFTCode
+            };
+
+            _employeeRepository.Insert(domain);
+
             var user = new User
             {
                 UserName = model.Email,
@@ -319,7 +418,7 @@ namespace ZimaHrm.Web.Controllers
                 EmailConfirmed = true
             };
 
-            var result = await _userManager.CreateAsync(user, "123456");
+            var result = await _userManager.CreateAsync(user, "Pa$$word123!");
 
             if (!result.Succeeded)
             {
@@ -332,7 +431,7 @@ namespace ZimaHrm.Web.Controllers
             await _userManager.AddToRoleAsync(user, Roles.User.ToString());
 
 
-            ViewBag.Msg = "Employee & User created successfully, Please change the default password after first login!";
+            ViewBag.Msg = "Employee & User created successfully, Please change the default password (Pa$$word123!) after first login!";
             return RedirectToAction(nameof(EmployeeList));
         }
 
