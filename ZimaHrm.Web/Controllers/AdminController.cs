@@ -180,9 +180,29 @@ namespace ZimaHrm.Web.Controllers
             var awards = await _awardRepository.All()
                                        .AsSplitQuery()
                                        .Include(x => x.Employee)
+                                       .Select(s=>new AwardModel
+                                       { 
+                                        AwardTitle = s.AwardTitle,
+                                        CreatedBy=s.CreatedBy,
+                                        CreatedUtc=s.CreatedUtc,
+                                        Date=s.Date,
+                                        EmployeeId=s.EmployeeId,
+                                        EmployeeModel=new EmployeeModel
+                                        { 
+                                         Name=s.Employee.Name,
+                                         Id=s.Employee.Id
+                                        },
+                                        Gift=s.Gift,
+                                        Id=s.Id,
+                                        IsDelete=s.IsDelete,
+                                        LastModifiedBy=s.LastModifiedBy,
+                                        LastModifiedUtc=s.LastModifiedUtc,
+                                        Month=s.Month,
+                                        Price=s.Price
+                                       })
                                        .ToListAsync()
                                        .ConfigureAwait(false);
-            return View(awards.Map<List<AwardModel>>());
+            return View(awards);
         }
         [HttpGet]
         public ActionResult AddAward()
@@ -200,17 +220,51 @@ namespace ZimaHrm.Web.Controllers
                 ViewBag.Employees = _employeeRepository.GetAllEmployeeForDropDown();
                 return View(model);
             }
-            _awardRepository.Insert(model.Map<Award>());
+            _awardRepository.Insert(new Award
+            { 
+             AwardTitle=model.AwardTitle,
+             CreatedBy = _currentUser.UserId,
+             Date=model.Date,
+             EmployeeId=model.EmployeeId,
+             Gift=model.Gift,
+             Month=model.Month,
+             Price=model.Price
+            });
             return RedirectToAction();
         }
         [HttpGet]
-        public ActionResult EditAward(Guid id)
+        public async Task<ActionResult> EditAward(Guid id)
         {
-            var award = _awardRepository.Find(id);
+            var award =await _awardRepository.All()
+                                             .AsSplitQuery()
+                                             .Include(s=>s.Employee)
+                                             .SingleOrDefaultAsync(s=>s.Id==id)
+                                             .ConfigureAwait(false);
             if (award != null)
             {
                 ViewBag.Employees = _employeeRepository.GetAllEmployeeForDropDown();
-                return View(award.Map<AwardModel>());
+                return View(new AwardModel
+                { 
+                 AwardTitle=award.AwardTitle,
+                 CreatedBy=award.CreatedBy,
+                 CreatedUtc=award.CreatedUtc,
+                 Date=award.Date,
+                 EmployeeId=award.EmployeeId,
+                 EmployeeModel=new EmployeeModel
+                 {
+                     Name=award.Employee.Name,
+                     Id =award.Employee.Id,
+
+                 },
+                 Gift=award.Gift,
+                 Id=award.Id,
+                 IsDelete=award.IsDelete,
+                 LastModifiedBy=award.LastModifiedBy,
+                 LastModifiedUtc=award.LastModifiedUtc,
+                 Month=award.Month,
+                 Price=award.Price
+
+                });
             }
             return RedirectToAction(nameof(AwardList));
         }

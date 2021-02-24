@@ -12,6 +12,7 @@ using ZimaHrm.Data.Repository.PaySlip;
 using ZimaHrm.Data.Entity;
 using ZimaHrm.Core.Infrastructure.Mapping;
 using System.Threading.Tasks;
+using ZimaHrm.Web.Services;
 
 namespace ZimaHrm.Web.Controllers
 {
@@ -26,16 +27,17 @@ namespace ZimaHrm.Web.Controllers
         private readonly IPaySlipRepository _paySlipRepository;
         private readonly IEmployeePaySlipRepository _employeePaySlipRepository;
         private readonly IPaySlipAllowanceRepository _paySlipAllowanceRepository;
-
+        private readonly IAuthenticatedUserService _currentUser;
         // GET: /<controller>/
-        public PayRollController(IAllowanceTypeRepository allowanceTypeRepository, 
+        public PayRollController(IAllowanceTypeRepository allowanceTypeRepository,
                                  IAllowanceRepository allowanceRepository,
-                                 IDepartmentRepository departmentRepository, 
+                                 IDepartmentRepository departmentRepository,
                                  IEmployeeRepository employeeRepository,
-                                 IAllowanceEmployee allowanceEmployee, 
+                                 IAllowanceEmployee allowanceEmployee,
                                  IPaySlipRepository paySlipRepository,
-                                 IEmployeePaySlipRepository employeePaySlipRepository, 
-                                 IPaySlipAllowanceRepository paySlipAllowanceRepository)
+                                 IEmployeePaySlipRepository employeePaySlipRepository,
+                                 IPaySlipAllowanceRepository paySlipAllowanceRepository, 
+                                 IAuthenticatedUserService currentUser)
         {
             this._allowanceTypeRepository = allowanceTypeRepository;
             this._allowanceRepository = allowanceRepository;
@@ -45,6 +47,7 @@ namespace ZimaHrm.Web.Controllers
             this._paySlipRepository = paySlipRepository;
             this._employeePaySlipRepository = employeePaySlipRepository;
             this._paySlipAllowanceRepository = paySlipAllowanceRepository;
+            _currentUser = currentUser;
         }
 
         #region Allowance Type List
@@ -223,7 +226,7 @@ namespace ZimaHrm.Web.Controllers
         }
         [HttpPost]
 
-        public ActionResult CreatePaySlip(PaySlipModel model)
+        public async Task<ActionResult> CreatePaySlip(PaySlipModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -231,16 +234,28 @@ namespace ZimaHrm.Web.Controllers
                 return View(model);
             }
             model.Month = new DateTime(DateTime.Now.Year, Convert.ToInt16(model.Month), DateTime.Now.Day).ToString("MMMM", CultureInfo.InvariantCulture);
-            List<EmployeeModel> employees;
-            _paySlipRepository.Insert(model.Map<PaySlip>());
+            IEnumerable<Employee> employees;
+
+            var paySlip = new PaySlip
+            {
+                CreatedBy = _currentUser.UserId,
+                DepartmentId = model.DepartmentId,
+                Description = model.Description,
+                Month = model.Month,
+                PaymentDate = model.PaymentDate,
+                Title = model.Title
+            };
+            _paySlipRepository.Insert(paySlip);
+
+            model.Id = paySlip.Id;
+
             if (model.DepartmentId != Guid.Empty)
                 employees = _employeeRepository.AllByDepartmentId(model.DepartmentId)
-                                              .ToList()
-                                              .Map<List<EmployeeModel>>();
+                                               .ToList();
             else
-                employees = _employeeRepository.All()
-                                              .ToList()
-                                              .Map<List<EmployeeModel>>(); 
+                employees =await _employeeRepository.All()
+                                                    .ToListAsync()
+                                                    .ConfigureAwait(false);
 
             if (employees != null)
             {
@@ -290,7 +305,26 @@ namespace ZimaHrm.Web.Controllers
                     employeePaySlipModel.EmployeeId = item.Id;
                     employeePaySlipModel.PaySlipId = model.Id;
                     employeePaySlipModel.PaySlipAllowances = paySlipAllowances;
-                    _employeePaySlipRepository.Insert(employeePaySlipModel.Map<EmployeePaySlip>());
+                    _employeePaySlipRepository.Insert(new EmployeePaySlip
+                    { 
+                     AllowanceTotal= employeePaySlipModel.AllowanceTotal,
+                     BasicSalary=employeePaySlipModel.BasicSalary,
+                     CreatedBy=_currentUser.UserId,
+                     DeductionTotal=employeePaySlipModel.DeductionTotal,
+                     EmployeeId=employeePaySlipModel.EmployeeId,
+                     NetSalary=employeePaySlipModel.NetSalary,
+                     PaySlipAllowances = employeePaySlipModel.PaySlipAllowances.Select(s=>new PaySlipAllowance
+                     {
+                      AllowanceName =s.AllowanceName,
+                      AllowanceType=s.AllowanceType,
+                      Amount=s.Amount,
+                      CreatedBy=_currentUser.UserId,
+                      IsValue=s.IsValue,
+                      Value=s.Value
+                     }).ToList(),
+                     PaySlipId = employeePaySlipModel.PaySlipId,
+                     Status=employeePaySlipModel.Status
+                    });
                 }
             }
 
