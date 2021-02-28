@@ -36,7 +36,7 @@ namespace ZimaHrm.Web.Controllers
                                  IAllowanceEmployee allowanceEmployee,
                                  IPaySlipRepository paySlipRepository,
                                  IEmployeePaySlipRepository employeePaySlipRepository,
-                                 IPaySlipAllowanceRepository paySlipAllowanceRepository, 
+                                 IPaySlipAllowanceRepository paySlipAllowanceRepository,
                                  IAuthenticatedUserService currentUser)
         {
             this._allowanceTypeRepository = allowanceTypeRepository;
@@ -126,7 +126,7 @@ namespace ZimaHrm.Web.Controllers
                 {
                     _allowanceRepository.Update(model.Map<Allowance>(), model.Id);
                     //success updated
-                    return RedirectToActionPermanent(nameof(AllowanceTypeList), new { id =Guid.Empty });
+                    return RedirectToActionPermanent(nameof(AllowanceTypeList), new { id = Guid.Empty });
                 }
                 if (_allowanceRepository.All().Any(x => x.AllowanceType == model.AllowanceType))
                 {
@@ -214,8 +214,37 @@ namespace ZimaHrm.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> PaySlipList()
         {
-            var paySlips = await _paySlipRepository.All().ToListAsync().ConfigureAwait(false);
-            return View(paySlips.Map<List<PaySlipModel>>());
+            var paySlips = await _paySlipRepository.All().Select(s => new PaySlipModel
+            {
+                CreatedBy = s.CreatedBy,
+                CreatedUtc = s.CreatedUtc,
+                DepartmentId = s.DepartmentId,
+                Description = s.Description,
+                Id = s.Id,
+                IsDelete = s.IsDelete,
+                LastModifiedBy = s.LastModifiedBy,
+                LastModifiedUtc = s.LastModifiedUtc,
+                Month = s.Month,
+                PaymentDate = s.PaymentDate,
+                Title = s.Title,
+                DepartmentName="All"
+            })
+                                                   .ToListAsync()
+                                                   .ConfigureAwait(false);
+
+            var departments = await _departmentRepository.All()
+                                                       .ToDictionaryAsync(s => s.Id, s => s.Name)
+                                                       .ConfigureAwait(false);
+
+            paySlips.ForEach(s => {
+
+                if (departments.ContainsKey(s.DepartmentId))
+                {
+                    s.DepartmentName = departments.GetValueOrDefault(s.DepartmentId);
+                }
+            });
+
+            return View(paySlips);
         }
 
         [HttpGet]
@@ -253,7 +282,7 @@ namespace ZimaHrm.Web.Controllers
                 employees = _employeeRepository.AllByDepartmentId(model.DepartmentId)
                                                .ToList();
             else
-                employees =await _employeeRepository.All()
+                employees = await _employeeRepository.All()
                                                     .ToListAsync()
                                                     .ConfigureAwait(false);
 
@@ -306,24 +335,24 @@ namespace ZimaHrm.Web.Controllers
                     employeePaySlipModel.PaySlipId = model.Id;
                     employeePaySlipModel.PaySlipAllowances = paySlipAllowances;
                     _employeePaySlipRepository.Insert(new EmployeePaySlip
-                    { 
-                     AllowanceTotal= employeePaySlipModel.AllowanceTotal,
-                     BasicSalary=employeePaySlipModel.BasicSalary,
-                     CreatedBy=_currentUser.UserId,
-                     DeductionTotal=employeePaySlipModel.DeductionTotal,
-                     EmployeeId=employeePaySlipModel.EmployeeId,
-                     NetSalary=employeePaySlipModel.NetSalary,
-                     PaySlipAllowances = employeePaySlipModel.PaySlipAllowances.Select(s=>new PaySlipAllowance
-                     {
-                      AllowanceName =s.AllowanceName,
-                      AllowanceType=s.AllowanceType,
-                      Amount=s.Amount,
-                      CreatedBy=_currentUser.UserId,
-                      IsValue=s.IsValue,
-                      Value=s.Value
-                     }).ToList(),
-                     PaySlipId = employeePaySlipModel.PaySlipId,
-                     Status=employeePaySlipModel.Status
+                    {
+                        AllowanceTotal = employeePaySlipModel.AllowanceTotal,
+                        BasicSalary = employeePaySlipModel.BasicSalary,
+                        CreatedBy = _currentUser.UserId,
+                        DeductionTotal = employeePaySlipModel.DeductionTotal,
+                        EmployeeId = employeePaySlipModel.EmployeeId,
+                        NetSalary = employeePaySlipModel.NetSalary,
+                        PaySlipAllowances = employeePaySlipModel.PaySlipAllowances.Select(s => new PaySlipAllowance
+                        {
+                            AllowanceName = s.AllowanceName,
+                            AllowanceType = s.AllowanceType,
+                            Amount = s.Amount,
+                            CreatedBy = _currentUser.UserId,
+                            IsValue = s.IsValue,
+                            Value = s.Value
+                        }).ToList(),
+                        PaySlipId = employeePaySlipModel.PaySlipId,
+                        Status = employeePaySlipModel.Status
                     });
                 }
             }

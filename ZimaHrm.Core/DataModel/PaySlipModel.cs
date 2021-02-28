@@ -9,9 +9,12 @@ namespace ZimaHrm.Core.DataModel
     {
         [Required]
         public string Title { get; set; }
+
         [Required]
         [DisplayName("Department")]
         public Guid DepartmentId { get; set; }
+
+        public string DepartmentName { get; set; }
 
         [Required]
         public string Month { get; set; }

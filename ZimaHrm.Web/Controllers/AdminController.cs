@@ -97,7 +97,7 @@ namespace ZimaHrm.Web.Controllers
         public async Task<IActionResult> Holidays()
         {
             DateTime dt = DateTime.Now;
-            string currentMonth = dt.ToString("MMMM");
+            string currentMonth = dt.ToString("MMMM", System.Globalization.CultureInfo.InvariantCulture);
 
             var holidays =await _holidayRepository.All()
                                             .Where(x => x.Month == currentMonth)
@@ -127,7 +127,7 @@ namespace ZimaHrm.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.Month = model.Date.ToString("MMMM");
+                model.Month = model.Date.ToString("MMMM", System.Globalization.CultureInfo.InvariantCulture);
                 model.Day = model.Date.DayOfWeek.ToString();
                 _holidayRepository.Insert(model.Map<Holiday>());
                 return RedirectToAction("holidays");
@@ -148,7 +148,7 @@ namespace ZimaHrm.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditHoliday(HolidayModel model)
         {
-            model.Month = model.Date.ToString("MMMM");
+            model.Month = model.Date.ToString("MMMM", System.Globalization.CultureInfo.InvariantCulture);
             model.Day = model.Date.DayOfWeek.ToString();
             var holiday = _holidayRepository.Find(model.Id);
             if (ModelState.IsValid && holiday != null)
