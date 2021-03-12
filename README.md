@@ -26,9 +26,14 @@ This project can run with Visual Studio Code on Windows, Linux and MacOS machine
 - PaySlip
 - and lots of features
 
-#Screnshoots
+## Screnshoots
+Attendence Report
 ![Attendence Report](https://github.com/Dakicksoft/ZimaHrm/blob/0e5861932a05ccf8b37e5ca4abfc0825fd3fb3dd/ZimaHrm.Web/wwwroot/adminFront/img/att.png)
+
+PaySlip
 ![PaySlip](https://github.com/Dakicksoft/ZimaHrm/blob/0e5861932a05ccf8b37e5ca4abfc0825fd3fb3dd/ZimaHrm.Web/wwwroot/adminFront/img/payslipPNG.PNG)
+
+Other
 ![Other](https://github.com/Dakicksoft/ZimaHrm/blob/0e5861932a05ccf8b37e5ca4abfc0825fd3fb3dd/ZimaHrm.Web/wwwroot/adminFront/img/lots.PNG)
 
 ## About:
