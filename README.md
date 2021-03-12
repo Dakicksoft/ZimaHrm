@@ -1,5 +1,8 @@
 # ZimaHrm is a new open source HR softrware
 
+For small & Nedium business, it can be easily configureable to setup company, department, designation. then it can manage employee, attendence, allowances and deduction and finally generate payslip accroding to employee's allowance, deduction and salary
+
+
 :star: Take enjoy :star:
 
 ## How to start?:
@@ -17,6 +20,11 @@ This project can run with Visual Studio Code on Windows, Linux and MacOS machine
 - Entity Framework Core 5
 
 
+## Features
+
+- Attendence Report
+- PaySlip
+- and lots of features
 
 
 ## About:
