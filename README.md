@@ -37,4 +37,4 @@ Other<br/>
 ![Other](https://github.com/Dakicksoft/ZimaHrm/blob/0e5861932a05ccf8b37e5ca4abfc0825fd3fb3dd/ZimaHrm.Web/wwwroot/adminFront/img/lots.PNG)
 <br/>
 ## About:
-This project developed by [Dakicksoft] (https://dakicksoft.com).
+This project developed by [Dakicksoft](https://dakicksoft.com).
