@@ -1,6 +1,6 @@
 # ZimaHrm is a new open source HRM software
 
-For small & Nedium business, it can be easily configureable to setup company, department, designation. then it can manage employee, attendence, allowances and deduction and finally generate payslip accroding to employee's allowance, deduction and salary
+For small & medium business, it can be easily configureable to setup company, department, designation. then it can manage employee, attendence, allowances and deduction and finally generate payslip accroding to employee's allowance, deduction and salary
 
 
 :star: Take enjoy :star:
