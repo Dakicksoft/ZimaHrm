@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Debugging;
 using Serilog.Events;
@@ -13,9 +14,9 @@ namespace ZimaHrm.Web.Infrastructure
 {
     public static class SerilogLogging
     {
-        public static LoggerConfiguration InitLogger(WebHostBuilderContext context, LoggerConfiguration loggerConfiguration)
+        public static LoggerConfiguration InitLogger(HostBuilderContext context,IConfiguration configuration, LoggerConfiguration loggerConfiguration)
         {
-            var connectionString = context.Configuration.GetConnectionString("Default");
+            var connectionString = configuration.GetConnectionString("Default");
 
             var sinkOpts = new MSSqlServerSinkOptions
             {

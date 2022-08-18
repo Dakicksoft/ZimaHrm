@@ -97,7 +97,7 @@ namespace ZimaHrm.Core.Infrastructure.IO
 
                 setOrAddCellStyle(cell, bold: bold, textWrapped: true);
 
-              
+
                 if (cellValue.ToNullableDateTime() != null && cellValue.ToNullableDateTime() != DateTime.MinValue && cellValue.ToNullableDateTime() != DateTime.MaxValue)
                 {
                     setOrAddCellStyle(cell, false, date: true);
@@ -105,18 +105,18 @@ namespace ZimaHrm.Core.Infrastructure.IO
                     continue;
                 }
 
-             
+
                 if (cellValue.IsValidEmail())
                 {
                     cell.Value = cellValue;
-                    cell.Hyperlink = new XLHyperlink("mailto:" + cellValue);
+                    cell.SetHyperlink(new XLHyperlink("mailto:" + cellValue));
                     continue;
                 }
 
                 if (cellValue.IsValidUrl())
                 {
                     cell.Value = cellValue;
-                    cell.Hyperlink = new XLHyperlink(cellValue);
+                    cell.SetHyperlink(new XLHyperlink(cellValue));
                     continue;
                 }
 

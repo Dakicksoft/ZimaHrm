@@ -26,13 +26,10 @@ namespace ZimaHrm.Web
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>()
-                          .UseSerilog((context, configuration) => Infrastructure.SerilogLogging.InitLogger(context, configuration))
-                          .UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))
-                          .UseContentRoot(Directory.GetCurrentDirectory());
-                });
+                .UseSerilog((context, services, configuration) => Infrastructure.SerilogLogging.InitLogger(context, context.Configuration, configuration))
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>()
+                                                                    .UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))
+                                                                    .UseContentRoot(Directory.GetCurrentDirectory()); });
 
     }
 }

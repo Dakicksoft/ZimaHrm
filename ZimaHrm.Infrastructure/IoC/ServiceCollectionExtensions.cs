@@ -12,11 +12,7 @@ namespace ZimaHrm.Core.Infrastructure.IoC
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddCriptography(this IServiceCollection services, string key)
-        {
-            services.AddSingleton<ICriptography>(_ => new Criptography(key));
-        }
-
+       
         //public static void AddDbContextMemory<T>(this IServiceCollection services) where T : DbContext
         //{
         //    services.AddDbContextPool<T>(options => options.UseInMemoryDatabase(typeof(T).Name));
@@ -29,10 +25,6 @@ namespace ZimaHrm.Core.Infrastructure.IoC
             services.GetService<T>().Database.Migrate();
         }
 
-        public static void AddHash(this IServiceCollection services)
-        {
-            services.AddSingleton<IHash, Hash>();
-        }
 
         public static void AddJsonWebToken(this IServiceCollection services, string key, TimeSpan expires)
         {

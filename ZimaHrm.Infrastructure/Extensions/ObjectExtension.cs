@@ -49,33 +49,6 @@ namespace ZimaHrm.Core.Infrastructure.Extensions
             return computeHash(instance, cryptoServiceProvider);
         }
 
-        /// <summary>
-        ///     Gets a MD5 hash of the current instance.
-        /// </summary>
-        /// <param name="instance">
-        ///     The instance being extended.
-        /// </param>
-        /// <returns>
-        ///     A base 64 encoded string representation of the hash.
-        /// </returns>
-        public static string GetMD5Hash(this object instance)
-        {
-            return instance.GetHash<MD5CryptoServiceProvider>();
-        }
-
-        /// <summary>
-        ///     Gets a SHA1 hash of the current instance.
-        /// </summary>
-        /// <param name="instance">
-        ///     The instance being extended.
-        /// </param>
-        /// <returns>
-        ///     A base 64 encoded string representation of the hash.
-        /// </returns>
-        public static string GetSHA1Hash(this object instance)
-        {
-            return instance.GetHash<SHA1CryptoServiceProvider>();
-        }
 
         private static string computeHash<T>(object instance, T cryptoServiceProvider) where T : HashAlgorithm, new()
         {

@@ -41,45 +41,6 @@ namespace ZimaHrm.Core.Infrastructure.Extensions
             return ip.StartsWith("192.168.");
         }
 
-        public static string GetNewToken()
-        {
-            return GetRandomString(40);
-        }
-
-        public static string GetRandomString(int length, string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-        {
-            if (length < 0)
-                throw new ArgumentOutOfRangeException("length", "length cannot be less than zero.");
-
-            if (string.IsNullOrEmpty(allowedChars))
-                throw new ArgumentException("allowedChars may not be empty.");
-
-            const int byteSize = 0x100;
-            var allowedCharSet = new HashSet<char>(allowedChars).ToArray();
-            if (byteSize < allowedCharSet.Length)
-                throw new ArgumentException(string.Format("allowedChars may contain no more than {0} characters.", byteSize));
-
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                var result = new StringBuilder();
-                var buf = new byte[128];
-
-                while (result.Length < length)
-                {
-                    rng.GetBytes(buf);
-                    for (var i = 0; i < buf.Length && result.Length < length; ++i)
-                    {
-                        var outOfRangeStart = byteSize - (byteSize % allowedCharSet.Length);
-                        if (outOfRangeStart <= buf[i])
-                            continue;
-                        result.Append(allowedCharSet[buf[i] % allowedCharSet.Length]);
-                    }
-                }
-
-                return result.ToString();
-            }
-        }
-
 
         public static bool IsValidIdentifier(this string value)
         {
