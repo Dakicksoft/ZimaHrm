@@ -51,7 +51,7 @@ namespace ZimaHrm.Web
             mvcBuilder.AddRazorRuntimeCompilation();
 #endif
 
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Default")));
             services.AddScoped<DbContext, AppDbContext>();
 
             services.AddIdentity<User, Role>(options =>

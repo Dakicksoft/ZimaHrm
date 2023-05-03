@@ -10,6 +10,7 @@ namespace ZimaHrm.Data
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         public DbSet<Department> Departments { get; set; }

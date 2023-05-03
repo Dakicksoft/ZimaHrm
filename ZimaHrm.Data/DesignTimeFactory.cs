@@ -11,7 +11,7 @@ namespace ZimaHrm.Data
             var builder = new DbContextOptionsBuilder<AppDbContext>();
 
             //Change here
-            builder.UseSqlServer("Server=localhost,1433;Initial Catalog=hrmdb;Persist Security Info=False;User ID=sa;Password=myPass123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;")
+            builder.UseNpgsql("Server=195.142.108.54;Database=zimahrm_db;User Id=paas_admin_user;Password=$<CN1dN_2X&k68oj")
                    .EnableDetailedErrors()
                    .EnableSensitiveDataLogging();
 
