@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -17,12 +18,14 @@ namespace ZimaHrm.Web.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+
         public HomeController(UserManager<User> userManager,
-                              SignInManager<User> signInManager)
+            SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -52,6 +55,7 @@ namespace ZimaHrm.Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
         [HttpGet]
         public ActionResult Login()
         {
@@ -62,36 +66,36 @@ namespace ZimaHrm.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                   
-                    if (await _userManager.IsInRoleAsync(user, Roles.Admin.ToString()))
-                        return RedirectToAction("Index", "Admin");
-                    if (await _userManager.IsInRoleAsync(user, Roles.Admin.ToString()))
-                        return RedirectToAction("Index", "Employee");
-                }
-            }
-            else
+            if (!ModelState.IsValid)
             {
                 TempData["FFMsg"] = "Invalid Email or Password!";
+                return View();
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                TempData["FFMsg"] = "Invalid Email or Password!";
+                return View();
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                if (await _userManager.IsInRoleAsync(user, Roles.Admin.ToString()))
+                    return RedirectToAction("Index", "Admin");
+                if (await _userManager.IsInRoleAsync(user, Roles.Admin.ToString()))
+                    return RedirectToAction("Index", "Employee");
             }
 
             return View();
         }
+
         [HttpGet]
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
-
-
-
-
     }
 }
